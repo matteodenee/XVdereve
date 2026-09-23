@@ -1,0 +1,43 @@
+@if (gameState(); as state) {
+
+  <main>
+
+    <h1>Draft</h1>
+
+    <h2>
+      {{ state.currentTeam.country }}
+      {{ state.currentTeam.year }}
+    </h2>
+
+    <p>
+      Respins restants :
+      {{ state.remainingRespins }}
+    </p>
+
+    <h3>Joueurs disponibles</h3>
+
+    @for (player of state.availablePlayers; track player.id) {
+
+      <div>
+        <strong>{{ player.name }}</strong>
+
+        <span>
+          {{ player.position }}
+        </span>
+
+        <span>
+          {{ player.overall }}
+        </span>
+      </div>
+
+    }
+
+  </main>
+
+} @else {
+
+  <p>
+    Aucune partie en cours.
+  </p>
+
+}

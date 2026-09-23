@@ -1,0 +1,30 @@
+<main>
+
+  <h1>XV de rêve</h1>
+
+  <p>
+    Compose ton XV idéal avec les meilleurs joueurs
+    des différentes Coupes du monde.
+  </p>
+
+  <button
+    type="button"
+    (click)="startGame()"
+    [disabled]="loading()"
+  >
+
+    @if (loading()) {
+      Chargement...
+    } @else {
+      Commencer une partie
+    }
+
+  </button>
+
+  @if (error()) {
+    <p>
+      {{ error() }}
+    </p>
+  }
+
+</main>   
