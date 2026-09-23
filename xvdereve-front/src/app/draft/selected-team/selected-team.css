@@ -1,0 +1,106 @@
+.selected-team {
+  padding: 24px;
+
+  border: 1px solid rgba(255, 255, 255, 0.07);
+  border-radius: 18px;
+
+  background: #101e17;
+
+  position: sticky;
+  top: 25px;
+}
+
+header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+header p {
+  margin: 0;
+
+  color: #849a8c;
+
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+header h2 {
+  margin: 4px 0 0;
+
+  color: white;
+}
+
+header > strong {
+  color: #d8b45b;
+
+  font-size: 21px;
+}
+
+.progress {
+  height: 5px;
+
+  margin: 20px 0;
+
+  border-radius: 10px;
+
+  background: #263a30;
+
+  overflow: hidden;
+}
+
+.progress-value {
+  height: 100%;
+
+  background: #d8b45b;
+
+  transition: width 0.3s;
+}
+
+.players {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.selected-player {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  padding: 11px 12px;
+
+  border-radius: 10px;
+
+  background: rgba(255, 255, 255, 0.035);
+}
+
+.selected-player strong {
+  display: block;
+
+  color: #edf4ef;
+
+  font-size: 13px;
+}
+
+.selected-player span {
+  color: #82998a;
+
+  font-size: 11px;
+}
+
+.note {
+  color: #d8b45b !important;
+
+  font-size: 14px !important;
+  font-weight: 800;
+}
+
+.empty {
+  padding: 25px;
+
+  color: #72867a;
+
+  text-align: center;
+}

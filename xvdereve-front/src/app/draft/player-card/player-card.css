@@ -1,0 +1,99 @@
+.player-card {
+  position: relative;
+
+  min-height: 175px;
+
+  padding: 22px;
+
+  border: 1px solid rgba(255, 255, 255, 0.07);
+  border-radius: 16px;
+
+  background: #14241c;
+
+  cursor: pointer;
+
+  transition:
+    transform 0.2s,
+    border-color 0.2s,
+    background 0.2s;
+}
+
+.player-card:hover {
+  transform: translateY(-5px);
+
+  border-color: rgba(216, 180, 91, 0.7);
+
+  background: #192d22;
+}
+
+.rating {
+  position: absolute;
+
+  top: 18px;
+  right: 18px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  width: 46px;
+  height: 46px;
+
+  border-radius: 50%;
+
+  background: #d8b45b;
+  color: #12251a;
+
+  font-size: 18px;
+  font-weight: 900;
+}
+
+.player-info {
+  padding-right: 50px;
+}
+
+h3 {
+  margin: 0 0 6px;
+
+  color: white;
+
+  font-size: 17px;
+}
+
+p {
+  margin: 0;
+
+  color: #9daf9f;
+}
+
+.kicker {
+  display: inline-block;
+
+  margin-top: 20px;
+  padding: 5px 9px;
+
+  border-radius: 6px;
+
+  background: rgba(216, 180, 91, 0.12);
+  color: #d8b45b;
+
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+button {
+  position: absolute;
+
+  bottom: 18px;
+  right: 18px;
+
+  border: 0;
+  background: transparent;
+
+  color: #d8b45b;
+
+  font-weight: 700;
+
+  cursor: pointer;
+}

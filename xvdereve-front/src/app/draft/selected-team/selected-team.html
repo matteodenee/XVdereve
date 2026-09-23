@@ -1,0 +1,61 @@
+<aside class="selected-team">
+
+  <header>
+    <div>
+      <p>Ton équipe</p>
+
+      <h2>XV de rêve</h2>
+    </div>
+
+    <strong>
+      {{ players().length }}/15
+    </strong>
+  </header>
+
+
+  <div class="progress">
+    <div
+      class="progress-value"
+      [style.width.%]="players().length / 15 * 100"
+    ></div>
+  </div>
+
+
+  <div class="players">
+
+    @for (
+        player of sortedPlayers();
+        track player.id
+    ) {
+
+        <div class="selected-player">
+
+        <div>
+
+            <strong>
+            {{ player.name }}
+            </strong>
+
+            <span>
+            {{ player.position | positionLabel }}
+            </span>
+
+        </div>
+
+        <span class="note">
+            {{ player.overall }}
+        </span>
+
+        </div>
+
+    } @empty {
+
+        <div class="empty">
+        Aucun joueur sélectionné
+        </div>
+
+    }
+
+    </div>
+
+</aside>

@@ -1,0 +1,32 @@
+<article
+  class="player-card"
+  (click)="playerSelected.emit(player().id)"
+>
+
+  <div class="rating">
+    {{ player().overall }}
+  </div>
+
+  <div class="player-info">
+
+    <h3>
+      {{ player().name }}
+    </h3>
+
+    <p>
+    {{ player().position | positionLabel }}
+    </p>
+
+  </div>
+
+  @if (player().canKick) {
+    <span class="kicker">
+      Buteur
+    </span>
+  }
+
+  <button type="button">
+    Sélectionner
+  </button>
+
+</article>

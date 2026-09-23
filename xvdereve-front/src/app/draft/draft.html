@@ -1,43 +1,152 @@
-@if (gameState(); as state) {
+<div class="draft-page">
 
-  <main>
+  <header class="main-header">
 
-    <h1>Draft</h1>
+    <div>
 
-    <h2>
-      {{ state.currentTeam.country }}
-      {{ state.currentTeam.year }}
-    </h2>
+      <a
+        routerLink="/"
+        class="home-link"
+      >
+        ← Accueil
+      </a>
 
-    <p>
-      Respins restants :
-      {{ state.remainingRespins }}
-    </p>
+      <span class="brand">
+        XV DE RÊVE
+      </span>
 
-    <h3>Joueurs disponibles</h3>
+      <h1>
+        Construis ton équipe
+      </h1>
 
-    @for (player of state.availablePlayers; track player.id) {
+    </div>
 
-      <div>
-        <strong>{{ player.name }}</strong>
+    <div class="draft-label">
+      DRAFT
+    </div>
 
-        <span>
-          {{ player.position }}
-        </span>
+  </header>
 
-        <span>
-          {{ player.overall }}
-        </span>
+
+  @if (gameState(); as state) {
+
+    <app-team-card
+      [team]="state.currentTeam"
+      [remainingRespins]="state.remainingRespins"
+      (respin)="respin()"
+    />
+
+
+    @if (error()) {
+
+      <div class="error">
+        {{ error() }}
       </div>
 
     }
 
-  </main>
 
-} @else {
+    <div class="draft-content">
 
-  <p>
-    Aucune partie en cours.
-  </p>
+      <section>
 
-}
+        <div class="section-header">
+
+          <div>
+
+            <span>
+              Sélection
+            </span>
+
+            <h2>
+              Joueurs disponibles
+            </h2>
+
+          </div>
+
+
+          <div class="player-controls">
+
+            <span>
+              {{ sortedPlayers().length }} joueurs
+            </span>
+
+
+            <div class="sort-buttons">
+
+              <button
+                type="button"
+                [class.active]="sortType() === 'overall'"
+                (click)="changeSort('overall')"
+              >
+                Note
+              </button>
+
+
+              <button
+                type="button"
+                [class.active]="sortType() === 'alphabetical'"
+                (click)="changeSort('alphabetical')"
+              >
+                A-Z
+              </button>
+
+
+              <button
+                type="button"
+                [class.active]="sortType() === 'position'"
+                (click)="changeSort('position')"
+              >
+                Poste
+              </button>
+
+            </div>
+
+          </div>
+
+        </div>
+
+
+        <div class="players-grid">
+
+          @for (
+            player of sortedPlayers();
+            track player.id
+          ) {
+
+            <app-player-card
+              [player]="player"
+              (playerSelected)="selectPlayer($event)"
+            />
+
+          }
+
+        </div>
+
+      </section>
+
+
+      <app-selected-team
+        [players]="state.selectedPlayers"
+        [remainingPositions]="state.remainingPositions"
+      />
+
+    </div>
+
+  } @else {
+
+    <div class="empty-state">
+
+      <h2>
+        Aucune partie en cours
+      </h2>
+
+      <p>
+        Retourne à l'accueil pour commencer une partie.
+      </p>
+
+    </div>
+
+  }
+
+</div>

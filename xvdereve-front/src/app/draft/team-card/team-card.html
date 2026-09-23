@@ -1,0 +1,40 @@
+<section class="team-card">
+
+  <div class="team-identity">
+
+    <div class="team-logo">
+      {{ team().country.slice(0, 2).toUpperCase() }}
+    </div>
+
+    <div>
+      <p class="label">Équipe tirée</p>
+
+      <h2>
+        {{ team().country | displayName }}
+      </h2>
+
+      <span class="year">
+        Coupe du monde {{ team().year }}
+      </span>
+    </div>
+
+  </div>
+
+  <div class="team-actions">
+
+    <div class="respin-counter">
+      <span>Respins</span>
+      <strong>{{ remainingRespins() }}</strong>
+    </div>
+
+    <button
+      type="button"
+      (click)="respin.emit()"
+      [disabled]="remainingRespins() === 0"
+    >
+      ↻ Nouvelle équipe
+    </button>
+
+  </div>
+
+</section>
