@@ -13,7 +13,6 @@ services:
       - "5432:5432"
 
     volumes:
-      - postgres_data:/var/lib/postgresql/data
-
-volumes:
-  postgres_data:
+      - ./xvdereve-back/database/data:/var/lib/postgresql/data
+      - ./xvdereve-back/database/init:/docker-entrypoint-initdb.d:ro
+      - ./xvdereve-back/csv:/csv:ro

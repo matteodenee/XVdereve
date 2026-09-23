@@ -1,167 +1,188 @@
-Pays,Annee
-Angleterre,1987
-Argentine,1987
-Australie,1987
-Fidji,1987
-France,1987
-Irlande,1987
-Italie,1987
-Japon,1987
-Nouvelle_Zélande,1987
-Roumanie,1987
-Tonga,1987
-Pays_de_Galles,1987
-Écosse,1987
-Angleterre,1991
-Argentine,1991
-Australie,1991
-Fidji,1991
-France,1991
-Irlande,1991
-Italie,1991
-Japon,1991
-Nouvelle_Zélande,1991
-Roumanie,1991
-Samoa,1991
-Pays_de_Galles,1991
-Écosse,1991
-Afrique_du_Sud,1995
-Angleterre,1995
-Argentine,1995
-Australie,1995
-France,1995
-Irlande,1995
-Italie,1995
-Japon,1995
-Nouvelle_Zélande,1995
-Roumanie,1995
-Samoa,1995
-Tonga,1995
-Pays_de_Galles,1995
-Écosse,1995
-Afrique_du_Sud,1999
-Angleterre,1999
-Argentine,1999
-Australie,1999
-Fidji,1999
-France,1999
-Irlande,1999
-Italie,1999
-Japon,1999
-Namibie,1999
-Nouvelle_Zélande,1999
-Roumanie,1999
-Samoa,1999
-Tonga,1999
-Uruguay,1999
-Pays_de_Galles,1999
-Écosse,1999
-Afrique_du_Sud,2003
-Angleterre,2003
-Argentine,2003
-Australie,2003
-Fidji,2003
-France,2003
-Géorgie,2003
-Irlande,2003
-Italie,2003
-Japon,2003
-Namibie,2003
-Nouvelle_Zélande,2003
-Roumanie,2003
-Samoa,2003
-Tonga,2003
-Uruguay,2003
-Pays_de_Galles,2003
-Écosse,2003
-Afrique_du_Sud,2007
-Angleterre,2007
-Argentine,2007
-Australie,2007
-Fidji,2007
-France,2007
-Géorgie,2007
-Irlande,2007
-Italie,2007
-Japon,2007
-Namibie,2007
-Nouvelle_Zélande,2007
-Portugal,2007
-Roumanie,2007
-Samoa,2007
-Tonga,2007
-Pays_de_Galles,2007
-Écosse,2007
-Afrique_du_Sud,2011
-Angleterre,2011
-Argentine,2011
-Australie,2011
-Fidji,2011
-France,2011
-Géorgie,2011
-Irlande,2011
-Italie,2011
-Japon,2011
-Namibie,2011
-Nouvelle_Zélande,2011
-Roumanie,2011
-Samoa,2011
-Tonga,2011
-Pays_de_Galles,2011
-Écosse,2011
-Afrique_du_Sud,2015
-Angleterre,2015
-Argentine,2015
-Australie,2015
-Fidji,2015
-France,2015
-Géorgie,2015
-Irlande,2015
-Italie,2015
-Japon,2015
-Namibie,2015
-Nouvelle_Zélande,2015
-Roumanie,2015
-Samoa,2015
-Tonga,2015
-Uruguay,2015
-Pays_de_Galles,2015
-Écosse,2015
-Afrique_du_Sud,2019
-Angleterre,2019
-Argentine,2019
-Australie,2019
-Fidji,2019
-France,2019
-Géorgie,2019
-Irlande,2019
-Italie,2019
-Japon,2019
-Namibie,2019
-Nouvelle_Zélande,2019
-Samoa,2019
-Tonga,2019
-Uruguay,2019
-Pays_de_Galles,2019
-Écosse,2019
-USA,2019
-Afrique_du_Sud,2023
-Angleterre,2023
-Argentine,2023
-Australie,2023
-Chili,2023
-Fidji,2023
-France,2023
-Géorgie,2023
-Irlande,2023
-Italie,2023
-Japon,2023
-Namibie,2023
-Nouvelle_Zélande,2023
-Portugal,2023
-Roumanie,2023
-Samoa,2023
-Tonga,2023
-Uruguay,2023
-Pays_de_Galles,2023
-Écosse,2023
+country,year,description,logo_url
+Angleterre,1987,Équipe nationale : Angleterre — Coupe du monde de rugby 1987.,/logos/angleterre.png
+Argentine,1987,Équipe nationale : Argentine — Coupe du monde de rugby 1987.,/logos/argentine.png
+Australie,1987,Équipe nationale : Australie — Coupe du monde de rugby 1987.,/logos/australie.png
+Canada,1987,Équipe nationale : Canada — Coupe du monde de rugby 1987.,/logos/canada.png
+Écosse,1987,Équipe nationale : Écosse — Coupe du monde de rugby 1987.,/logos/ecosse.png
+Fidji,1987,Équipe nationale : Fidji — Coupe du monde de rugby 1987.,/logos/fidji.png
+France,1987,Équipe nationale : France — Coupe du monde de rugby 1987.,/logos/france.png
+Irlande,1987,Équipe nationale : Irlande — Coupe du monde de rugby 1987.,/logos/irlande.png
+Italie,1987,Équipe nationale : Italie — Coupe du monde de rugby 1987.,/logos/italie.png
+Japon,1987,Équipe nationale : Japon — Coupe du monde de rugby 1987.,/logos/japon.png
+Nouvelle_Zélande,1987,Équipe nationale : Nouvelle-Zélande — Coupe du monde de rugby 1987.,/logos/nouvelle-zelande.png
+Pays_de_Galles,1987,Équipe nationale : Pays de Galles — Coupe du monde de rugby 1987.,/logos/pays-de-galles.png
+Roumanie,1987,Équipe nationale : Roumanie — Coupe du monde de rugby 1987.,/logos/roumanie.png
+Tonga,1987,Équipe nationale : Tonga — Coupe du monde de rugby 1987.,/logos/tonga.png
+USA,1987,Équipe nationale : États-Unis — Coupe du monde de rugby 1987.,/logos/etats-unis.png
+Zimbabwe,1987,Équipe nationale : Zimbabwe — Coupe du monde de rugby 1987.,/logos/zimbabwe.png
+Angleterre,1991,Équipe nationale : Angleterre — Coupe du monde de rugby 1991.,/logos/angleterre.png
+Argentine,1991,Équipe nationale : Argentine — Coupe du monde de rugby 1991.,/logos/argentine.png
+Australie,1991,Équipe nationale : Australie — Coupe du monde de rugby 1991.,/logos/australie.png
+Canada,1991,Équipe nationale : Canada — Coupe du monde de rugby 1991.,/logos/canada.png
+Écosse,1991,Équipe nationale : Écosse — Coupe du monde de rugby 1991.,/logos/ecosse.png
+Fidji,1991,Équipe nationale : Fidji — Coupe du monde de rugby 1991.,/logos/fidji.png
+France,1991,Équipe nationale : France — Coupe du monde de rugby 1991.,/logos/france.png
+Irlande,1991,Équipe nationale : Irlande — Coupe du monde de rugby 1991.,/logos/irlande.png
+Italie,1991,Équipe nationale : Italie — Coupe du monde de rugby 1991.,/logos/italie.png
+Japon,1991,Équipe nationale : Japon — Coupe du monde de rugby 1991.,/logos/japon.png
+Nouvelle_Zélande,1991,Équipe nationale : Nouvelle-Zélande — Coupe du monde de rugby 1991.,/logos/nouvelle-zelande.png
+Pays_de_Galles,1991,Équipe nationale : Pays de Galles — Coupe du monde de rugby 1991.,/logos/pays-de-galles.png
+Roumanie,1991,Équipe nationale : Roumanie — Coupe du monde de rugby 1991.,/logos/roumanie.png
+Samoa,1991,Équipe nationale : Samoa — Coupe du monde de rugby 1991.,/logos/samoa.png
+USA,1991,Équipe nationale : États-Unis — Coupe du monde de rugby 1991.,/logos/etats-unis.png
+Zimbabwe,1991,Équipe nationale : Zimbabwe — Coupe du monde de rugby 1991.,/logos/zimbabwe.png
+Afrique_du_Sud,1995,Équipe nationale : Afrique du Sud — Coupe du monde de rugby 1995.,/logos/afrique-du-sud.png
+Angleterre,1995,Équipe nationale : Angleterre — Coupe du monde de rugby 1995.,/logos/angleterre.png
+Argentine,1995,Équipe nationale : Argentine — Coupe du monde de rugby 1995.,/logos/argentine.png
+Australie,1995,Équipe nationale : Australie — Coupe du monde de rugby 1995.,/logos/australie.png
+Canada,1995,Équipe nationale : Canada — Coupe du monde de rugby 1995.,/logos/canada.png
+Cote_d_Ivoire,1995,Équipe nationale : Côte d'Ivoire — Coupe du monde de rugby 1995.,/logos/cote-d-ivoire.png
+Écosse,1995,Équipe nationale : Écosse — Coupe du monde de rugby 1995.,/logos/ecosse.png
+France,1995,Équipe nationale : France — Coupe du monde de rugby 1995.,/logos/france.png
+Irlande,1995,Équipe nationale : Irlande — Coupe du monde de rugby 1995.,/logos/irlande.png
+Italie,1995,Équipe nationale : Italie — Coupe du monde de rugby 1995.,/logos/italie.png
+Japon,1995,Équipe nationale : Japon — Coupe du monde de rugby 1995.,/logos/japon.png
+Nouvelle_Zélande,1995,Équipe nationale : Nouvelle-Zélande — Coupe du monde de rugby 1995.,/logos/nouvelle-zelande.png
+Pays_de_Galles,1995,Équipe nationale : Pays de Galles — Coupe du monde de rugby 1995.,/logos/pays-de-galles.png
+Roumanie,1995,Équipe nationale : Roumanie — Coupe du monde de rugby 1995.,/logos/roumanie.png
+Samoa,1995,Équipe nationale : Samoa — Coupe du monde de rugby 1995.,/logos/samoa.png
+Tonga,1995,Équipe nationale : Tonga — Coupe du monde de rugby 1995.,/logos/tonga.png
+Afrique_du_Sud,1999,Équipe nationale : Afrique du Sud — Coupe du monde de rugby 1999.,/logos/afrique-du-sud.png
+Angleterre,1999,Équipe nationale : Angleterre — Coupe du monde de rugby 1999.,/logos/angleterre.png
+Argentine,1999,Équipe nationale : Argentine — Coupe du monde de rugby 1999.,/logos/argentine.png
+Australie,1999,Équipe nationale : Australie — Coupe du monde de rugby 1999.,/logos/australie.png
+Canada,1999,Équipe nationale : Canada — Coupe du monde de rugby 1999.,/logos/canada.png
+Écosse,1999,Équipe nationale : Écosse — Coupe du monde de rugby 1999.,/logos/ecosse.png
+Espagne,1999,Équipe nationale : Espagne — Coupe du monde de rugby 1999.,/logos/espagne.png
+Fidji,1999,Équipe nationale : Fidji — Coupe du monde de rugby 1999.,/logos/fidji.png
+France,1999,Équipe nationale : France — Coupe du monde de rugby 1999.,/logos/france.png
+Irlande,1999,Équipe nationale : Irlande — Coupe du monde de rugby 1999.,/logos/irlande.png
+Italie,1999,Équipe nationale : Italie — Coupe du monde de rugby 1999.,/logos/italie.png
+Japon,1999,Équipe nationale : Japon — Coupe du monde de rugby 1999.,/logos/japon.png
+Namibie,1999,Équipe nationale : Namibie — Coupe du monde de rugby 1999.,/logos/namibie.png
+Nouvelle_Zélande,1999,Équipe nationale : Nouvelle-Zélande — Coupe du monde de rugby 1999.,/logos/nouvelle-zelande.png
+Pays_de_Galles,1999,Équipe nationale : Pays de Galles — Coupe du monde de rugby 1999.,/logos/pays-de-galles.png
+Roumanie,1999,Équipe nationale : Roumanie — Coupe du monde de rugby 1999.,/logos/roumanie.png
+Samoa,1999,Équipe nationale : Samoa — Coupe du monde de rugby 1999.,/logos/samoa.png
+Tonga,1999,Équipe nationale : Tonga — Coupe du monde de rugby 1999.,/logos/tonga.png
+Uruguay,1999,Équipe nationale : Uruguay — Coupe du monde de rugby 1999.,/logos/uruguay.png
+USA,1999,Équipe nationale : États-Unis — Coupe du monde de rugby 1999.,/logos/etats-unis.png
+Afrique_du_Sud,2003,Équipe nationale : Afrique du Sud — Coupe du monde de rugby 2003.,/logos/afrique-du-sud.png
+Angleterre,2003,Équipe nationale : Angleterre — Coupe du monde de rugby 2003.,/logos/angleterre.png
+Argentine,2003,Équipe nationale : Argentine — Coupe du monde de rugby 2003.,/logos/argentine.png
+Australie,2003,Équipe nationale : Australie — Coupe du monde de rugby 2003.,/logos/australie.png
+Canada,2003,Équipe nationale : Canada — Coupe du monde de rugby 2003.,/logos/canada.png
+Écosse,2003,Équipe nationale : Écosse — Coupe du monde de rugby 2003.,/logos/ecosse.png
+Fidji,2003,Équipe nationale : Fidji — Coupe du monde de rugby 2003.,/logos/fidji.png
+France,2003,Équipe nationale : France — Coupe du monde de rugby 2003.,/logos/france.png
+Géorgie,2003,Équipe nationale : Géorgie — Coupe du monde de rugby 2003.,/logos/georgie.png
+Irlande,2003,Équipe nationale : Irlande — Coupe du monde de rugby 2003.,/logos/irlande.png
+Italie,2003,Équipe nationale : Italie — Coupe du monde de rugby 2003.,/logos/italie.png
+Japon,2003,Équipe nationale : Japon — Coupe du monde de rugby 2003.,/logos/japon.png
+Namibie,2003,Équipe nationale : Namibie — Coupe du monde de rugby 2003.,/logos/namibie.png
+Nouvelle_Zélande,2003,Équipe nationale : Nouvelle-Zélande — Coupe du monde de rugby 2003.,/logos/nouvelle-zelande.png
+Pays_de_Galles,2003,Équipe nationale : Pays de Galles — Coupe du monde de rugby 2003.,/logos/pays-de-galles.png
+Roumanie,2003,Équipe nationale : Roumanie — Coupe du monde de rugby 2003.,/logos/roumanie.png
+Samoa,2003,Équipe nationale : Samoa — Coupe du monde de rugby 2003.,/logos/samoa.png
+Tonga,2003,Équipe nationale : Tonga — Coupe du monde de rugby 2003.,/logos/tonga.png
+Uruguay,2003,Équipe nationale : Uruguay — Coupe du monde de rugby 2003.,/logos/uruguay.png
+USA,2003,Équipe nationale : États-Unis — Coupe du monde de rugby 2003.,/logos/etats-unis.png
+Afrique_du_Sud,2007,Équipe nationale : Afrique du Sud — Coupe du monde de rugby 2007.,/logos/afrique-du-sud.png
+Angleterre,2007,Équipe nationale : Angleterre — Coupe du monde de rugby 2007.,/logos/angleterre.png
+Argentine,2007,Équipe nationale : Argentine — Coupe du monde de rugby 2007.,/logos/argentine.png
+Australie,2007,Équipe nationale : Australie — Coupe du monde de rugby 2007.,/logos/australie.png
+Canada,2007,Équipe nationale : Canada — Coupe du monde de rugby 2007.,/logos/canada.png
+Écosse,2007,Équipe nationale : Écosse — Coupe du monde de rugby 2007.,/logos/ecosse.png
+Fidji,2007,Équipe nationale : Fidji — Coupe du monde de rugby 2007.,/logos/fidji.png
+France,2007,Équipe nationale : France — Coupe du monde de rugby 2007.,/logos/france.png
+Géorgie,2007,Équipe nationale : Géorgie — Coupe du monde de rugby 2007.,/logos/georgie.png
+Irlande,2007,Équipe nationale : Irlande — Coupe du monde de rugby 2007.,/logos/irlande.png
+Italie,2007,Équipe nationale : Italie — Coupe du monde de rugby 2007.,/logos/italie.png
+Japon,2007,Équipe nationale : Japon — Coupe du monde de rugby 2007.,/logos/japon.png
+Namibie,2007,Équipe nationale : Namibie — Coupe du monde de rugby 2007.,/logos/namibie.png
+Nouvelle_Zélande,2007,Équipe nationale : Nouvelle-Zélande — Coupe du monde de rugby 2007.,/logos/nouvelle-zelande.png
+Pays_de_Galles,2007,Équipe nationale : Pays de Galles — Coupe du monde de rugby 2007.,/logos/pays-de-galles.png
+Portugal,2007,Équipe nationale : Portugal — Coupe du monde de rugby 2007.,/logos/portugal.png
+Roumanie,2007,Équipe nationale : Roumanie — Coupe du monde de rugby 2007.,/logos/roumanie.png
+Samoa,2007,Équipe nationale : Samoa — Coupe du monde de rugby 2007.,/logos/samoa.png
+Tonga,2007,Équipe nationale : Tonga — Coupe du monde de rugby 2007.,/logos/tonga.png
+USA,2007,Équipe nationale : États-Unis — Coupe du monde de rugby 2007.,/logos/etats-unis.png
+Afrique_du_Sud,2011,Équipe nationale : Afrique du Sud — Coupe du monde de rugby 2011.,/logos/afrique-du-sud.png
+Angleterre,2011,Équipe nationale : Angleterre — Coupe du monde de rugby 2011.,/logos/angleterre.png
+Argentine,2011,Équipe nationale : Argentine — Coupe du monde de rugby 2011.,/logos/argentine.png
+Australie,2011,Équipe nationale : Australie — Coupe du monde de rugby 2011.,/logos/australie.png
+Canada,2011,Équipe nationale : Canada — Coupe du monde de rugby 2011.,/logos/canada.png
+Écosse,2011,Équipe nationale : Écosse — Coupe du monde de rugby 2011.,/logos/ecosse.png
+Fidji,2011,Équipe nationale : Fidji — Coupe du monde de rugby 2011.,/logos/fidji.png
+France,2011,Équipe nationale : France — Coupe du monde de rugby 2011.,/logos/france.png
+Géorgie,2011,Équipe nationale : Géorgie — Coupe du monde de rugby 2011.,/logos/georgie.png
+Irlande,2011,Équipe nationale : Irlande — Coupe du monde de rugby 2011.,/logos/irlande.png
+Italie,2011,Équipe nationale : Italie — Coupe du monde de rugby 2011.,/logos/italie.png
+Japon,2011,Équipe nationale : Japon — Coupe du monde de rugby 2011.,/logos/japon.png
+Namibie,2011,Équipe nationale : Namibie — Coupe du monde de rugby 2011.,/logos/namibie.png
+Nouvelle_Zélande,2011,Équipe nationale : Nouvelle-Zélande — Coupe du monde de rugby 2011.,/logos/nouvelle-zelande.png
+Pays_de_Galles,2011,Équipe nationale : Pays de Galles — Coupe du monde de rugby 2011.,/logos/pays-de-galles.png
+Roumanie,2011,Équipe nationale : Roumanie — Coupe du monde de rugby 2011.,/logos/roumanie.png
+Russie,2011,Équipe nationale : Russie — Coupe du monde de rugby 2011.,/logos/russie.png
+Samoa,2011,Équipe nationale : Samoa — Coupe du monde de rugby 2011.,/logos/samoa.png
+Tonga,2011,Équipe nationale : Tonga — Coupe du monde de rugby 2011.,/logos/tonga.png
+USA,2011,Équipe nationale : États-Unis — Coupe du monde de rugby 2011.,/logos/etats-unis.png
+Afrique_du_Sud,2015,Équipe nationale : Afrique du Sud — Coupe du monde de rugby 2015.,/logos/afrique-du-sud.png
+Angleterre,2015,Équipe nationale : Angleterre — Coupe du monde de rugby 2015.,/logos/angleterre.png
+Argentine,2015,Équipe nationale : Argentine — Coupe du monde de rugby 2015.,/logos/argentine.png
+Australie,2015,Équipe nationale : Australie — Coupe du monde de rugby 2015.,/logos/australie.png
+Canada,2015,Équipe nationale : Canada — Coupe du monde de rugby 2015.,/logos/canada.png
+Écosse,2015,Équipe nationale : Écosse — Coupe du monde de rugby 2015.,/logos/ecosse.png
+Fidji,2015,Équipe nationale : Fidji — Coupe du monde de rugby 2015.,/logos/fidji.png
+France,2015,Équipe nationale : France — Coupe du monde de rugby 2015.,/logos/france.png
+Géorgie,2015,Équipe nationale : Géorgie — Coupe du monde de rugby 2015.,/logos/georgie.png
+Irlande,2015,Équipe nationale : Irlande — Coupe du monde de rugby 2015.,/logos/irlande.png
+Italie,2015,Équipe nationale : Italie — Coupe du monde de rugby 2015.,/logos/italie.png
+Japon,2015,Équipe nationale : Japon — Coupe du monde de rugby 2015.,/logos/japon.png
+Namibie,2015,Équipe nationale : Namibie — Coupe du monde de rugby 2015.,/logos/namibie.png
+Nouvelle_Zélande,2015,Équipe nationale : Nouvelle-Zélande — Coupe du monde de rugby 2015.,/logos/nouvelle-zelande.png
+Roumanie,2015,Équipe nationale : Roumanie — Coupe du monde de rugby 2015.,/logos/roumanie.png
+Samoa,2015,Équipe nationale : Samoa — Coupe du monde de rugby 2015.,/logos/samoa.png
+Tonga,2015,Équipe nationale : Tonga — Coupe du monde de rugby 2015.,/logos/tonga.png
+Uruguay,2015,Équipe nationale : Uruguay — Coupe du monde de rugby 2015.,/logos/uruguay.png
+USA,2015,Équipe nationale : États-Unis — Coupe du monde de rugby 2015.,/logos/etats-unis.png
+Afrique_du_Sud,2019,Équipe nationale : Afrique du Sud — Coupe du monde de rugby 2019.,/logos/afrique-du-sud.png
+Angleterre,2019,Équipe nationale : Angleterre — Coupe du monde de rugby 2019.,/logos/angleterre.png
+Argentine,2019,Équipe nationale : Argentine — Coupe du monde de rugby 2019.,/logos/argentine.png
+Australie,2019,Équipe nationale : Australie — Coupe du monde de rugby 2019.,/logos/australie.png
+Canada,2019,Équipe nationale : Canada — Coupe du monde de rugby 2019.,/logos/canada.png
+Écosse,2019,Équipe nationale : Écosse — Coupe du monde de rugby 2019.,/logos/ecosse.png
+Fidji,2019,Équipe nationale : Fidji — Coupe du monde de rugby 2019.,/logos/fidji.png
+France,2019,Équipe nationale : France — Coupe du monde de rugby 2019.,/logos/france.png
+Géorgie,2019,Équipe nationale : Géorgie — Coupe du monde de rugby 2019.,/logos/georgie.png
+Irlande,2019,Équipe nationale : Irlande — Coupe du monde de rugby 2019.,/logos/irlande.png
+Italie,2019,Équipe nationale : Italie — Coupe du monde de rugby 2019.,/logos/italie.png
+Japon,2019,Équipe nationale : Japon — Coupe du monde de rugby 2019.,/logos/japon.png
+Namibie,2019,Équipe nationale : Namibie — Coupe du monde de rugby 2019.,/logos/namibie.png
+Nouvelle_Zélande,2019,Équipe nationale : Nouvelle-Zélande — Coupe du monde de rugby 2019.,/logos/nouvelle-zelande.png
+Pays_de_Galles,2019,Équipe nationale : Pays de Galles — Coupe du monde de rugby 2019.,/logos/pays-de-galles.png
+Russie,2019,Équipe nationale : Russie — Coupe du monde de rugby 2019.,/logos/russie.png
+Samoa,2019,Équipe nationale : Samoa — Coupe du monde de rugby 2019.,/logos/samoa.png
+Tonga,2019,Équipe nationale : Tonga — Coupe du monde de rugby 2019.,/logos/tonga.png
+Uruguay,2019,Équipe nationale : Uruguay — Coupe du monde de rugby 2019.,/logos/uruguay.png
+USA,2019,Équipe nationale : États-Unis — Coupe du monde de rugby 2019.,/logos/etats-unis.png
+Afrique_du_Sud,2023,Équipe nationale : Afrique du Sud — Coupe du monde de rugby 2023.,/logos/afrique-du-sud.png
+Angleterre,2023,Équipe nationale : Angleterre — Coupe du monde de rugby 2023.,/logos/angleterre.png
+Argentine,2023,Équipe nationale : Argentine — Coupe du monde de rugby 2023.,/logos/argentine.png
+Australie,2023,Équipe nationale : Australie — Coupe du monde de rugby 2023.,/logos/australie.png
+Chili,2023,Équipe nationale : Chili — Coupe du monde de rugby 2023.,/logos/chili.png
+Écosse,2023,Équipe nationale : Écosse — Coupe du monde de rugby 2023.,/logos/ecosse.png
+Fidji,2023,Équipe nationale : Fidji — Coupe du monde de rugby 2023.,/logos/fidji.png
+France,2023,Équipe nationale : France — Coupe du monde de rugby 2023.,/logos/france.png
+Géorgie,2023,Équipe nationale : Géorgie — Coupe du monde de rugby 2023.,/logos/georgie.png
+Irlande,2023,Équipe nationale : Irlande — Coupe du monde de rugby 2023.,/logos/irlande.png
+Italie,2023,Équipe nationale : Italie — Coupe du monde de rugby 2023.,/logos/italie.png
+Japon,2023,Équipe nationale : Japon — Coupe du monde de rugby 2023.,/logos/japon.png
+Namibie,2023,Équipe nationale : Namibie — Coupe du monde de rugby 2023.,/logos/namibie.png
+Nouvelle_Zélande,2023,Équipe nationale : Nouvelle-Zélande — Coupe du monde de rugby 2023.,/logos/nouvelle-zelande.png
+Pays_de_Galles,2023,Équipe nationale : Pays de Galles — Coupe du monde de rugby 2023.,/logos/pays-de-galles.png
+Portugal,2023,Équipe nationale : Portugal — Coupe du monde de rugby 2023.,/logos/portugal.png
+Roumanie,2023,Équipe nationale : Roumanie — Coupe du monde de rugby 2023.,/logos/roumanie.png
+Samoa,2023,Équipe nationale : Samoa — Coupe du monde de rugby 2023.,/logos/samoa.png
+Tonga,2023,Équipe nationale : Tonga — Coupe du monde de rugby 2023.,/logos/tonga.png
+Uruguay,2023,Équipe nationale : Uruguay — Coupe du monde de rugby 2023.,/logos/uruguay.png
