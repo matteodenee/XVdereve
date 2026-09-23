@@ -33,10 +33,10 @@ public class  Simulation {
     private boolean IsTransform(Player player){
         boolean isTransform = false;
         double regulatorCoef = 0.75;
-        if (!player.canKick) {
+        if (!player.isCanKick()) {
             regulatorCoef = 0.1;
         }
-        double rate = player.overall * regulatorCoef ;
+        double rate = player.getOverall() * regulatorCoef ;
         int randomInt = RANDOM.nextInt(0,100);
         if (randomInt <= rate) {
             isTransform = true;
@@ -179,11 +179,11 @@ public class  Simulation {
 
         ArrayList<Player> playersPool = new ArrayList<>();
 
-        for (Player player : team.players) {
+        for (Player player : team.getPlayers()) {
 
             int tickets = 1;
 
-            switch (player.position) {
+            switch (player.getPosition()) {
                 case Ailier:
                     tickets = 25;
                     break;
@@ -236,10 +236,10 @@ public class  Simulation {
     private boolean TryDrop(Player player){
         boolean isTransform = false;
         double dropRegulatorCoef = 0.5;
-        if (!player.canKick) {
+        if (!player.isCanKick()) {
             dropRegulatorCoef = 0.1;
         }
-        double rate = player.overall * dropRegulatorCoef ;
+        double rate = player.getOverall() * dropRegulatorCoef ;
         int randomInt = RANDOM.nextInt(0,100);
         if (randomInt <= rate) {
             isTransform = true;
@@ -250,8 +250,8 @@ public class  Simulation {
     private Player GetAdverseKicker(Team adverseTeam){
         Player kicPlayer = null;
         Position kickerPosition = Position.DemiOuverture;
-        for (Player player : adverseTeam.players) {
-            if (player.position.equals(kickerPosition)) {
+        for (Player player : adverseTeam.getPlayers()) {
+            if (player.getPosition().equals(kickerPosition)) {
                 kicPlayer = player;
             }
         }
@@ -303,8 +303,8 @@ public class  Simulation {
             ArrayList<Player> playersAtPosition = new ArrayList<>();
 
             // récupère les joueurs du poste
-            for (Player player : randomTeam.players) {
-                if (player.position == position) {
+            for (Player player : randomTeam.getPlayers()) {
+                if (player.getPosition() == position) {
                     playersAtPosition.add(player);
                 }
             }
@@ -321,8 +321,8 @@ public class  Simulation {
         }
 
         return new Team(
-            randomTeam.country,
-            randomTeam.year,
+            randomTeam.getCountry(),
+            randomTeam.getYear(),
             selectedPlayers
         );
     }

@@ -1,28 +1,61 @@
 package com.xvdereve.model;
-import java.util.ArrayList;
 
+import jakarta.persistence.*;
+
+import java.util.ArrayList;
+import java.util.List;
+
+@Entity
+@Table(name = "team")
 public class Team {
-    private static int nextId = 1;
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
-    Country country;
-    int year;
-    ArrayList<Player> players;
-    int GeneralNote;
-    
-    public Team(Country country , int year , ArrayList<Player> players ){
-        this.id = nextId++;
+
+    @Column(nullable = false)
+    private String country;
+
+    @Column(nullable = false)
+    private int year;
+
+    private String description;
+
+    @Column(name = "logo_url")
+    private String logoUrl;
+
+    @OneToMany(mappedBy = "team")
+    private List<Player> players = new ArrayList<>();
+
+
+    protected Team() {
+        // Obligatoire pour JPA
+    }
+
+
+    // Ce constructeur reste utile pour les équipes temporaires
+    // créées pendant les simulations.
+    public Team(String country, int year, ArrayList<Player> players) {
         this.country = country;
         this.year = year;
         this.players = players;
     }
 
-    public int GetGeneralNote(){
+
+    public int GetGeneralNote() {
+        if (players.isEmpty()) {
+            return 0;
+        }
+
         int total = 0;
+
         for (Player player : players) {
             total += player.getOverall();
         }
-        return (total / players.size());
+
+        return total / players.size();
     }
+
 
     public int GetBacksNote() {
         int total = 0;
@@ -30,68 +63,69 @@ public class Team {
 
         for (Player player : players) {
             if (
-                player.position == Position.DemiDeMelee ||
-                player.position == Position.DemiOuverture ||
-                player.position == Position.Centre ||
-                player.position == Position.Ailier ||
-                player.position == Position.Arriere
+                player.getPosition() == Position.DemiDeMelee ||
+                player.getPosition() == Position.DemiOuverture ||
+                player.getPosition() == Position.Centre ||
+                player.getPosition() == Position.Ailier ||
+                player.getPosition() == Position.Arriere
             ) {
                 total += player.getOverall();
                 count++;
             }
         }
 
-        if (count == 0) {
-            return 0;
-        }
-
-        return total / count;
+        return count == 0 ? 0 : total / count;
     }
+
+
     public int GetForwardsNote() {
         int total = 0;
         int count = 0;
 
         for (Player player : players) {
             if (
-                player.position == Position.Pilier ||
-                player.position == Position.Talonneur ||
-                player.position == Position.DeuxiemeLigne ||
-                player.position == Position.TroisiemeLigneAile ||
-                player.position == Position.TroisiemeLigneCentre
+                player.getPosition() == Position.Pilier ||
+                player.getPosition() == Position.Talonneur ||
+                player.getPosition() == Position.DeuxiemeLigne ||
+                player.getPosition() == Position.TroisiemeLigneAile ||
+                player.getPosition() == Position.TroisiemeLigneCentre
             ) {
                 total += player.getOverall();
                 count++;
             }
         }
 
-        if (count == 0) {
-            return 0;
-        }
-
-        return total / count;
-    }
-    @Override
-    public String toString() {
-        String text =  country + " " + year + " (" + players.size() + " joueurs)" + "\n";
-        for (Player player : players) {
-                    text += player + "\n";
-                }
-        return text;
+        return count == 0 ? 0 : total / count;
     }
 
-    public Country getCountry() {
-    return country;
+
+    public int getId() {
+        return id;
+    }
+
+    public String getCountry() {
+        return country;
     }
 
     public int getYear() {
         return year;
     }
-    public int getId() {
-        return id;
+
+    public String getDescription() {
+        return description;
     }
 
-    public ArrayList<Player> getPlayers() {
+    public String getLogoUrl() {
+        return logoUrl;
+    }
+
+    public List<Player> getPlayers() {
         return players;
     }
-    
+
+
+    @Override
+    public String toString() {
+        return country + " " + year + " (" + players.size() + " joueurs)";
+    }
 }

@@ -82,7 +82,7 @@ year,country,player,position,overall,canKick
 2023,Namibie,Pieter-Jan van Lill,DeuxiemeLigne,55,false
 2023,Namibie,Adriaan Booysen  ,TroisiemeLigneAile,59,false
 2023,Namibie,Wian Conradie,TroisiemeLigneAile,71,false
-2023,Namibie,Prince ǃGaoseb,TroisiemeLigneAile,56,false
+2023,Namibie,Prince Gaoseb,TroisiemeLigneAile,56,false
 2023,Namibie,Richard Hardwick,TroisiemeLigneAile,72,false
 2023,Namibie,Max Katjijeko,TroisiemeLigneCentre,61,false
 2023,Namibie,Johan Retief,TroisiemeLigneCentre,55,false
@@ -3859,7 +3859,6 @@ year,country,player,position,overall,canKick
 1999,Espagne,Miguel Ángel Frechilla,Ailier,59,false
 1999,Espagne,Ferran Velazco Querol,Arriere,60,false
 1999,Espagne,Francisco Puertas Soto,Arriere,58,false
-1999,Uruguay,Fernando Sosa Díaz,Pilier,62,false
 1999,Uruguay,Eduardo Berruti,Pilier,60,false
 1999,Uruguay,Pablo Lemoine,Pilier,72,false
 1999,Uruguay,Rodrigo Sánchez,Pilier,61,false
@@ -4175,7 +4174,6 @@ year,country,player,position,overall,canKick
 1999,Japon,Kohei Oguchi,Pilier,62,false
 1999,Japon,Toshikazu Nakamichi,Talonneur,66,false
 1999,Japon,Masahiro Kunda,Talonneur,64,false
-1999,Japon,Robert Gordon,DeuxiemeLigne,66,false
 1999,Japon,Yoshihiko Sakuraba,DeuxiemeLigne,64,false
 1999,Japon,Hiroyuki Tanuma,DeuxiemeLigne,62,false
 1999,Japon,Yasunori Watanabe,DeuxiemeLigne,65,false
@@ -5341,7 +5339,6 @@ year,country,player,position,overall,canKick
 1987,Irlande,Michael Bradley,DemiDeMelee,75,False
 1987,Irlande,Tony Doyle,DemiDeMelee,75,False
 1987,Irlande,Paul Dean,DemiOuverture,75,False
-1987,Irlande,Tony Doyle,DemiOuverture,75,False
 1987,Irlande,Brendan Mullin,Centre,75,False
 1987,Irlande,Mike Kiernan,Centre,75,False
 1987,Irlande,David Irwin,Centre,75,False

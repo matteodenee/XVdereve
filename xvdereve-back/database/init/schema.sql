@@ -1,5 +1,5 @@
 CREATE TABLE team (
-    id BIGSERIAL PRIMARY KEY,
+    id SERIAL PRIMARY KEY,
 
     year SMALLINT NOT NULL,
     country VARCHAR(100) NOT NULL,
@@ -16,9 +16,9 @@ CREATE TABLE team (
 
 
 CREATE TABLE player (
-    id BIGSERIAL PRIMARY KEY,
+    id SERIAL PRIMARY KEY,
 
-    team_id BIGINT NOT NULL,
+    team_id INTEGER NOT NULL,
 
     name VARCHAR(150) NOT NULL,
     position VARCHAR(50) NOT NULL,

@@ -11,8 +11,8 @@ public class Game {
     private Team currentTeam;
     private int remainingRespins;
 
-    public Game() {
-        this.teams = Initiate.InitiateGame();
+    public Game(ArrayList<Team> teams) {
+        this.teams = teams;
         this.myTeam = YourTeam.startEmptyTeam();
         this.remainingRespins = 3;
         this.currentTeam = YourTeam.GetRandomTeam(teams);
@@ -72,7 +72,7 @@ public class Game {
         if (!myTeam.IsComplete()) {
             currentTeam = YourTeam.GetRandomTeam(teams);
         } else {
-            myTeam.team = new Team(Country.France, 0, myTeam.getPlayers());
+            myTeam.team = new Team("France", 0, myTeam.getPlayers());
         }
     }
 

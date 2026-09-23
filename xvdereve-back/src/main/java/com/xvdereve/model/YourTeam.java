@@ -73,8 +73,8 @@ public class YourTeam {
     public ArrayList<Player> getAvailablePlayers(Team randomTeam) {
     ArrayList<Player> availablePlayers = new ArrayList<>();
 
-    for (Player player : randomTeam.players) {
-        if (remainingPositions.contains(player.position) && !players.contains(player)) {
+    for (Player player : randomTeam.getPlayers()) {
+        if (remainingPositions.contains(player.getPosition()) && !players.contains(player)) {
             availablePlayers.add(player);
         }
     }
@@ -90,12 +90,12 @@ public class YourTeam {
         this.kicker = player;
     }
     public void AddPlayer(Player player) {
-        if (!remainingPositions.contains(player.position)) {
-            throw new IllegalArgumentException("Poste déjà rempli : " + player.position);
+        if (!remainingPositions.contains(player.getPosition())) {
+            throw new IllegalArgumentException("Poste déjà rempli : " + player.getPosition());
         }
 
         players.add(player);
-        remainingPositions.remove(player.position);
+        remainingPositions.remove(player.getPosition());
     }
 
 
