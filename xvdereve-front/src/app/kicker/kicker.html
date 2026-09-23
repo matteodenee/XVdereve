@@ -1,1 +1,201 @@
-<p>kicker works!</p>
+<div class="kicker-page">
+
+  <header class="main-header">
+
+    <div>
+
+      <a
+        routerLink="/"
+        class="home-link"
+      >
+        ← Accueil
+      </a>
+
+      <span class="brand">
+        XV DE RÊVE
+      </span>
+
+      <h1>
+        Choisis ton buteur
+      </h1>
+
+      <p class="subtitle">
+        Ton XV est complet. Choisis maintenant
+        le joueur qui prendra les tirs au pied.
+      </p>
+
+    </div>
+
+    <div class="step-label">
+      BUTEUR
+    </div>
+
+  </header>
+
+
+  @if (gameState(); as state) {
+
+    <div class="team-summary">
+
+      <div>
+
+        <span>
+          Équipe terminée
+        </span>
+
+        <strong>
+          {{ state.selectedPlayers.length }}/15
+        </strong>
+
+      </div>
+
+      <p>
+        Les joueurs indiqués comme buteurs
+        sont naturellement plus efficaces
+        face aux perches.
+      </p>
+
+    </div>
+
+
+    <div class="players-grid">
+
+      @for (
+        player of sortedPlayers();
+        track player.id
+      ) {
+
+        <button
+          type="button"
+          class="player-card"
+          [class.selected]="
+            selectedKickerId() === player.id
+          "
+          [class.kicker-player]="
+            player.canKick
+          "
+          (click)="selectKicker(player.id)"
+        >
+
+          <div class="player-top">
+
+            <span class="position">
+              {{ player.position | positionLabel }}
+            </span>
+
+            <span class="rating">
+              {{ player.overall }}
+            </span>
+
+          </div>
+
+
+          <h2>
+            {{ player.name }}
+          </h2>
+
+
+          @if (player.canKick) {
+
+            <span class="kicker-badge">
+              ★ Buteur
+            </span>
+
+          } @else {
+
+            <span class="normal-badge">
+              Joueur de champ
+            </span>
+
+          }
+
+
+          @if (
+            selectedKickerId() === player.id
+          ) {
+
+            <div class="selected-indicator">
+              ✓ Sélectionné
+            </div>
+
+          }
+
+        </button>
+
+      }
+
+    </div>
+
+
+    @if (error()) {
+
+      <div class="error">
+        {{ error() }}
+      </div>
+
+    }
+
+
+    <div class="footer-actions">
+
+      <div>
+
+        @if (selectedKickerId() === null) {
+
+          <span>
+            Sélectionne un joueur
+            pour continuer.
+          </span>
+
+        } @else {
+
+          <span>
+            Ton buteur est prêt.
+          </span>
+
+        }
+
+      </div>
+
+
+      <button
+        type="button"
+        class="confirm-button"
+        [disabled]="
+          selectedKickerId() === null ||
+          loading()
+        "
+        (click)="confirmKicker()"
+      >
+
+        @if (loading()) {
+
+          Validation...
+
+        } @else {
+
+          Confirmer le buteur →
+
+        }
+
+      </button>
+
+    </div>
+
+  } @else {
+
+    <div class="empty-state">
+
+      <h2>
+        Aucune partie en cours
+      </h2>
+
+      <a routerLink="/">
+        Recommencer une partie
+      </a>
+
+    </div>
+
+  }
+
+</div>

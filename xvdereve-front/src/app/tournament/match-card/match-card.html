@@ -1,0 +1,140 @@
+<article class="match-card">
+
+  <header class="match-header">
+
+    <div>
+
+      <span class="match-type">
+        {{ match().matchName | matchNameLabel }}
+
+        @if (
+          match().matchName === 'POULE'
+        ) {
+          {{ match().idMatch }}
+        }
+      </span>
+
+    </div>
+
+
+    @if (isDraw()) {
+
+      <span class="result draw">
+        Nul
+      </span>
+
+    } @else if (match().victory) {
+
+      <span class="result victory">
+        Victoire
+      </span>
+
+    } @else {
+
+      <span class="result defeat">
+        Défaite
+      </span>
+
+    }
+
+  </header>
+
+
+  <div class="score">
+
+    <div class="team my-team">
+
+      <span class="team-name">
+        XV DE RÊVE
+      </span>
+
+      <strong>
+        {{ match().scoreMyTeam }}
+      </strong>
+
+    </div>
+
+
+    <div class="separator">
+      -
+    </div>
+
+
+    <div class="team">
+
+      <span class="team-name">
+        {{ match().adverseTeam.country | displayName }}
+
+        {{ match().adverseTeam.year }}
+      </span>
+
+      <strong>
+        {{ match().scoreAdverseTeam }}
+      </strong>
+
+    </div>
+
+  </div>
+
+
+  <div class="match-points">
+    {{ match().bonusPoints }}
+    points de classement
+  </div>
+
+
+  @if (match().events.length > 0) {
+
+    <details>
+
+      <summary>
+        Voir les événements
+        ({{ match().events.length }})
+      </summary>
+
+
+      <div class="events">
+
+        @for (
+          event of match().events;
+          track $index
+        ) {
+
+          <div
+            class="event"
+            [class.my-event]="event.myTeamEvent"
+          >
+
+            <div>
+
+              <strong>
+                {{ event.player.name }}
+              </strong>
+
+              <span>
+                {{ event.type | eventTypeLabel }}
+                · +{{ event.points }}
+              </span>
+
+            </div>
+
+
+            <div class="event-score">
+
+              {{ event.scoreMyTeam }}
+              -
+              {{ event.scoreAdverseTeam }}
+
+            </div>
+
+          </div>
+
+        }
+
+      </div>
+
+    </details>
+
+  }
+
+</article>

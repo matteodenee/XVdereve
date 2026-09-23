@@ -1,0 +1,450 @@
+:host {
+  display: block;
+
+  min-height: 100vh;
+
+  background:
+    radial-gradient(
+      circle at top right,
+      #173d2a 0,
+      transparent 35%
+    ),
+    #09130e;
+}
+
+
+.tournament-page {
+  width:
+    min(
+      1200px,
+      calc(100% - 48px)
+    );
+
+  margin: auto;
+
+  padding:
+    40px 0 80px;
+}
+
+
+/* HEADER */
+
+.main-header {
+  display: flex;
+
+  justify-content:
+    space-between;
+
+  align-items:
+    flex-end;
+
+  margin-bottom: 35px;
+}
+
+
+.home-link {
+  display: inline-block;
+
+  margin-bottom: 16px;
+
+  color: #8fa597;
+
+  font-size: 13px;
+
+  font-weight: 700;
+
+  text-decoration: none;
+}
+
+
+.home-link:hover {
+  color: #d8b45b;
+}
+
+
+.brand {
+  display: block;
+
+  color: #d8b45b;
+
+  font-size: 12px;
+
+  font-weight: 900;
+
+  letter-spacing: 3px;
+}
+
+
+.main-header h1 {
+  margin:
+    7px 0 0;
+
+  color: white;
+
+  font-size:
+    clamp(
+      28px,
+      4vw,
+      43px
+    );
+}
+
+
+.step-label {
+  padding: 8px 12px;
+
+  border:
+    1px solid
+    rgba(
+      216,
+      180,
+      91,
+      0.3
+    );
+
+  border-radius: 7px;
+
+  color: #d8b45b;
+
+  font-size: 12px;
+
+  font-weight: 800;
+
+  letter-spacing: 2px;
+}
+
+
+/* AVANT SIMULATION */
+
+.ready-card {
+  max-width: 650px;
+
+  margin:
+    100px auto;
+
+  padding: 45px;
+
+  border:
+    1px solid
+    rgba(
+      255,
+      255,
+      255,
+      0.07
+    );
+
+  border-radius: 20px;
+
+  background: #102018;
+
+  text-align: center;
+}
+
+
+.eyebrow {
+  color: #d8b45b;
+
+  font-size: 11px;
+
+  font-weight: 900;
+
+  letter-spacing: 2px;
+}
+
+
+.ready-card h2 {
+  margin:
+    10px 0;
+
+  color: white;
+
+  font-size: 32px;
+}
+
+
+.ready-card p {
+  color: #8fa397;
+}
+
+
+.ready-card strong {
+  color: white;
+}
+
+
+.ready-card button {
+  margin-top: 20px;
+
+  padding:
+    15px 28px;
+
+  border: 0;
+
+  border-radius: 10px;
+
+  background: #d8b45b;
+
+  color: #12251a;
+
+  font-weight: 900;
+
+  cursor: pointer;
+}
+
+
+.ready-card button:hover:not(:disabled) {
+  background: #e5c572;
+}
+
+
+.ready-card button:disabled {
+  opacity: 0.4;
+
+  cursor: not-allowed;
+}
+
+
+/* HERO RESULTAT */
+
+.result-hero {
+  padding:
+    35px;
+
+  border:
+    1px solid
+    rgba(
+      255,
+      255,
+      255,
+      0.07
+    );
+
+  border-radius: 18px;
+
+  background:
+    linear-gradient(
+      135deg,
+      #173827,
+      #102018
+    );
+
+  text-align: center;
+}
+
+
+.result-hero.champion {
+  border-color:
+    rgba(
+      216,
+      180,
+      91,
+      0.45
+    );
+}
+
+
+.result-hero span {
+  color: #8ca194;
+
+  font-size: 11px;
+
+  font-weight: 800;
+
+  letter-spacing: 2px;
+}
+
+
+.result-hero h2 {
+  margin:
+    8px 0 0;
+
+  color: #d8b45b;
+
+  font-size:
+    clamp(
+      25px,
+      4vw,
+      40px
+    );
+}
+
+
+/* STATS */
+
+.stats {
+  display: grid;
+
+  grid-template-columns:
+    repeat(4, 1fr);
+
+  gap: 12px;
+
+  margin-top: 20px;
+}
+
+
+.stats div {
+  padding: 20px;
+
+  border:
+    1px solid
+    rgba(
+      255,
+      255,
+      255,
+      0.06
+    );
+
+  border-radius: 12px;
+
+  background: #102018;
+
+  text-align: center;
+}
+
+
+.stats span {
+  display: block;
+
+  margin-bottom: 8px;
+
+  color: #7f9587;
+
+  font-size: 10px;
+
+  font-weight: 800;
+
+  text-transform: uppercase;
+}
+
+
+.stats strong {
+  color: white;
+
+  font-size: 24px;
+}
+
+
+/* MATCHS */
+
+.matches-header {
+  margin:
+    45px 0 18px;
+}
+
+
+.matches-header span {
+  color: #d8b45b;
+
+  font-size: 10px;
+
+  font-weight: 900;
+
+  letter-spacing: 2px;
+}
+
+
+.matches-header h2 {
+  margin:
+    4px 0 0;
+
+  color: white;
+}
+
+
+.matches {
+  display: grid;
+
+  grid-template-columns:
+    repeat(
+      2,
+      minmax(
+        0,
+        1fr
+      )
+    );
+
+  gap: 15px;
+}
+
+
+/* RECOMMENCER */
+
+.restart {
+  margin-top: 40px;
+
+  text-align: center;
+}
+
+
+.restart a {
+  display: inline-block;
+
+  padding:
+    13px 20px;
+
+  border:
+    1px solid
+    rgba(
+      216,
+      180,
+      91,
+      0.4
+    );
+
+  border-radius: 9px;
+
+  color: #d8b45b;
+
+  font-weight: 800;
+
+  text-decoration: none;
+}
+
+
+/* ERREUR */
+
+.error {
+  margin-top: 18px;
+
+  color: #ff9b9b;
+}
+
+
+/* RESPONSIVE */
+
+@media (max-width: 750px) {
+
+  .tournament-page {
+    width:
+      calc(
+        100% - 28px
+      );
+  }
+
+
+  .step-label {
+    display: none;
+  }
+
+
+  .stats {
+    grid-template-columns:
+      repeat(2, 1fr);
+  }
+
+
+  .matches {
+    grid-template-columns:
+      1fr;
+  }
+
+
+  .ready-card {
+    margin:
+      50px auto;
+
+    padding: 30px 20px;
+  }
+
+}

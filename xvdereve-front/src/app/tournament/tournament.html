@@ -1,1 +1,180 @@
-<p>tournament works!</p>
+<div class="tournament-page">
+
+  <header class="main-header">
+
+    <div>
+
+      <a
+        routerLink="/"
+        class="home-link"
+      >
+        ← Accueil
+      </a>
+
+      <span class="brand">
+        XV DE RÊVE
+      </span>
+
+      <h1>
+        Coupe du monde
+      </h1>
+
+    </div>
+
+    <div class="step-label">
+      TOURNOI
+    </div>
+
+  </header>
+
+
+  @if (!result()) {
+
+    <section class="ready-card">
+
+      <span class="eyebrow">
+        TON XV EST PRÊT
+      </span>
+
+      <h2>
+        À toi de jouer.
+      </h2>
+
+
+      @if (gameState(); as state) {
+
+        @if (state.kicker) {
+
+          <p>
+            Buteur :
+            <strong>
+              {{ state.kicker.name }}
+            </strong>
+          </p>
+
+        }
+
+      }
+
+
+      <button
+        type="button"
+        [disabled]="loading()"
+        (click)="simulate()"
+      >
+
+        @if (loading()) {
+
+          Simulation en cours...
+
+        } @else {
+
+          Lancer le tournoi
+
+        }
+
+      </button>
+
+
+      @if (error()) {
+
+        <div class="error">
+          {{ error() }}
+        </div>
+
+      }
+
+    </section>
+
+  } @else if (result(); as tournament) {
+
+    <section
+      class="result-hero"
+      [class.champion]="tournament.champion"
+    >
+
+      <span>
+        RÉSULTAT FINAL
+      </span>
+
+      <h2>
+        {{ statusTitle() }}
+      </h2>
+
+    </section>
+
+
+    <section class="stats">
+
+      <div>
+        <span>Victoires</span>
+        <strong>
+          {{ tournament.wins }}
+        </strong>
+      </div>
+
+      <div>
+        <span>Défaites</span>
+        <strong>
+          {{ tournament.losses }}
+        </strong>
+      </div>
+
+      <div>
+        <span>Points</span>
+        <strong>
+          {{ tournament.points }}
+        </strong>
+      </div>
+
+      <div>
+        <span>Phase finale</span>
+
+        <strong>
+          {{ tournament.qualified ? 'Oui' : 'Non' }}
+        </strong>
+      </div>
+
+    </section>
+
+
+    <div class="matches-header">
+
+      <span>
+        PARCOURS
+      </span>
+
+      <h2>
+        Tes matchs
+      </h2>
+
+    </div>
+
+
+    <section class="matches">
+
+      @for (
+        match of tournament.matches;
+        track $index
+      ) {
+
+        <app-match-card
+          [match]="match"
+        />
+
+      }
+
+    </section>
+
+
+    <div class="restart">
+
+      <a routerLink="/">
+        Recommencer une partie
+      </a>
+
+    </div>
+
+  }
+
+</div>
