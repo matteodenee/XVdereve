@@ -21,6 +21,7 @@
 
     </div>
 
+
     <div class="step-label">
       TOURNOI
     </div>
@@ -28,7 +29,11 @@
   </header>
 
 
-  @if (!result()) {
+  <!-- ============================== -->
+  <!-- AVANT LE TOURNOI -->
+  <!-- ============================== -->
+
+  @if (phase() === 'READY') {
 
     <section class="ready-card">
 
@@ -36,21 +41,33 @@
         TON XV EST PRÊT
       </span>
 
+
       <h2>
-        À toi de jouer.
+        La Coupe du monde t'attend.
       </h2>
+
+
+      <p class="ready-description">
+        Affronte les meilleures nations
+        et tente d'emmener ton XV jusqu'au titre.
+      </p>
 
 
       @if (gameState(); as state) {
 
         @if (state.kicker) {
 
-          <p>
-            Buteur :
+          <div class="kicker">
+
+            <span>
+              Ton buteur
+            </span>
+
             <strong>
               {{ state.kicker.name }}
             </strong>
-          </p>
+
+          </div>
 
         }
 
@@ -62,17 +79,7 @@
         [disabled]="loading()"
         (click)="simulate()"
       >
-
-        @if (loading()) {
-
-          Simulation en cours...
-
-        } @else {
-
-          Lancer le tournoi
-
-        }
-
+        Lancer le tournoi
       </button>
 
 
@@ -86,94 +93,616 @@
 
     </section>
 
-  } @else if (result(); as tournament) {
+  }
 
-    <section
-      class="result-hero"
-      [class.champion]="tournament.champion"
-    >
 
-      <span>
-        RÉSULTAT FINAL
+  <!-- ============================== -->
+  <!-- CHARGEMENT BACKEND -->
+  <!-- ============================== -->
+
+  @if (phase() === 'LOADING') {
+
+    <section class="loading-card">
+
+      <div class="loader"></div>
+
+      <span class="eyebrow">
+        COUPE DU MONDE
       </span>
 
       <h2>
-        {{ statusTitle() }}
+        Préparation du tournoi...
       </h2>
 
-    </section>
-
-
-    <section class="stats">
-
-      <div>
-        <span>Victoires</span>
-        <strong>
-          {{ tournament.wins }}
-        </strong>
-      </div>
-
-      <div>
-        <span>Défaites</span>
-        <strong>
-          {{ tournament.losses }}
-        </strong>
-      </div>
-
-      <div>
-        <span>Points</span>
-        <strong>
-          {{ tournament.points }}
-        </strong>
-      </div>
-
-      <div>
-        <span>Phase finale</span>
-
-        <strong>
-          {{ tournament.qualified ? 'Oui' : 'Non' }}
-        </strong>
-      </div>
+      <p>
+        Les équipes prennent place.
+      </p>
 
     </section>
 
-
-    <div class="matches-header">
-
-      <span>
-        PARCOURS
-      </span>
-
-      <h2>
-        Tes matchs
-      </h2>
-
-    </div>
+  }
 
 
-    <section class="matches">
+  <!-- ============================== -->
+  <!-- TIRAGE DU PROCHAIN MATCH -->
+  <!-- ============================== -->
 
-      @for (
-        match of tournament.matches;
-        track $index
-      ) {
+  @if (phase() === 'DRAW') {
 
-        <app-match-card
-          [match]="match"
-        />
+    @if (currentMatch(); as match) {
 
-      }
+      <section class="draw-section">
 
-    </section>
+        <div class="progress-header">
+
+          <span>
+            MATCH
+            {{ displayedMatchNumber() }}
+            /
+            {{ totalMatches() }}
+          </span>
+
+        </div>
 
 
-    <div class="restart">
+        <div class="progress-bar">
 
-      <a routerLink="/">
-        Recommencer une partie
-      </a>
+          <div
+            class="progress-value"
+            [style.width.%]="tournamentProgress()"
+          ></div>
 
-    </div>
+        </div>
+
+
+        <div class="draw-card">
+
+          <span class="eyebrow">
+            PROCHAIN MATCH
+          </span>
+
+
+          @if (!drawRevealed()) {
+
+            <h2>
+              Tirage de ton adversaire...
+            </h2>
+
+            <div class="draw-loader">
+
+              <span></span>
+
+              <span></span>
+
+              <span></span>
+
+            </div>
+
+          } @else {
+
+            <span class="match-phase">
+
+              {{ match.matchName | matchNameLabel }}
+
+              @if (
+                match.matchName === 'POULE'
+              ) {
+
+                {{ match.idMatch }}
+
+              }
+
+            </span>
+
+
+            <div class="draw-versus">
+
+              <div class="draw-team dream-team">
+
+                <span class="team-small">
+                  TON ÉQUIPE
+                </span>
+
+                <strong>
+                  XV DE RÊVE
+                </strong>
+
+              </div>
+
+
+              <div class="vs">
+                VS
+              </div>
+
+
+              <div class="draw-team">
+
+                <span class="team-small">
+                  ADVERSAIRE
+                </span>
+
+                <strong>
+                  {{ match.adverseTeam.country | displayName }}
+                </strong>
+
+                <small>
+                  {{ match.adverseTeam.year }}
+                </small>
+
+              </div>
+
+            </div>
+
+          }
+
+        </div>
+
+      </section>
+
+    }
+
+  }
+
+
+  <!-- ============================== -->
+  <!-- MATCH EN DIRECT -->
+  <!-- ============================== -->
+
+  @if (phase() === 'MATCH') {
+
+    @if (currentMatch(); as match) {
+
+      <section class="live-section">
+
+        <div class="progress-header">
+
+          <span>
+            MATCH
+            {{ displayedMatchNumber() }}
+            /
+            {{ totalMatches() }}
+          </span>
+
+          <span class="live-indicator">
+            <i></i>
+            EN DIRECT
+          </span>
+
+        </div>
+
+
+        <div class="progress-bar">
+
+          <div
+            class="progress-value"
+            [style.width.%]="tournamentProgress()"
+          ></div>
+
+        </div>
+
+
+        <div class="live-card">
+
+          <div class="live-match-type">
+
+            {{ match.matchName | matchNameLabel }}
+
+            @if (
+              match.matchName === 'POULE'
+            ) {
+
+              {{ match.idMatch }}
+
+            }
+
+          </div>
+
+
+          <div class="live-score">
+
+            <div class="live-team">
+
+              <span>
+                XV DE RÊVE
+              </span>
+
+              <strong>
+                {{ liveScoreMyTeam() }}
+              </strong>
+
+            </div>
+
+
+            <div class="score-separator">
+              -
+            </div>
+
+
+            <div class="live-team">
+
+              <span>
+                {{ match.adverseTeam.country | displayName }}
+
+                {{ match.adverseTeam.year }}
+              </span>
+
+              <strong>
+                {{ liveScoreOpponent() }}
+              </strong>
+
+            </div>
+
+          </div>
+
+
+          <div class="events-zone">
+
+            <div class="events-title">
+
+              <span>
+                FIL DU MATCH
+              </span>
+
+              <span>
+                {{ visibleEventCount() }}
+                /
+                {{ match.events.length }}
+              </span>
+
+            </div>
+
+
+            @if (
+              visibleEventsNewestFirst().length === 0
+            ) {
+
+              <div class="waiting-event">
+
+                <div class="pulse"></div>
+
+                <span>
+                  Coup d'envoi...
+                </span>
+
+              </div>
+
+            } @else {
+
+              <div class="events">
+
+                @for (
+                  event of visibleEventsNewestFirst();
+                  track $index
+                ) {
+
+                  <div
+                    class="event"
+                    [class.my-event]="event.myTeamEvent"
+                  >
+
+                    <div class="event-icon">
+
+                      @if (event.myTeamEvent) {
+                        XV
+                      } @else {
+                        ADV
+                      }
+
+                    </div>
+
+
+                    <div class="event-description">
+
+                      <strong>
+                        {{ event.player.name }}
+                      </strong>
+
+                      <span>
+                        {{ event.type | eventTypeLabel }}
+                        ·
+                        +{{ event.points }}
+                        pts
+                      </span>
+
+                    </div>
+
+
+                    <div class="event-score">
+
+                      {{ event.scoreMyTeam }}
+                      -
+                      {{ event.scoreAdverseTeam }}
+
+                    </div>
+
+                  </div>
+
+                }
+
+              </div>
+
+            }
+
+          </div>
+
+        </div>
+
+      </section>
+
+    }
+
+  }
+
+
+  <!-- ============================== -->
+  <!-- FIN D'UN MATCH -->
+  <!-- ============================== -->
+
+  @if (phase() === 'MATCH_END') {
+
+    @if (currentMatch(); as match) {
+
+      <section class="match-end-section">
+
+        <div
+          class="match-end-card"
+          [class.victory]="match.victory"
+          [class.defeat]="
+            !match.victory
+            &&
+            match.scoreMyTeam !==
+            match.scoreAdverseTeam
+          "
+        >
+
+          <span class="match-phase">
+
+            {{ match.matchName | matchNameLabel }}
+
+            @if (
+              match.matchName === 'POULE'
+            ) {
+
+              {{ match.idMatch }}
+
+            }
+
+          </span>
+
+
+          @if (
+            match.scoreMyTeam ===
+            match.scoreAdverseTeam
+          ) {
+
+            <span class="match-result-title draw">
+              MATCH NUL
+            </span>
+
+          } @else if (match.victory) {
+
+            <span class="match-result-title victory">
+              VICTOIRE
+            </span>
+
+          } @else {
+
+            <span class="match-result-title defeat">
+              DÉFAITE
+            </span>
+
+          }
+
+
+          <div class="final-score">
+
+            <div>
+
+              <span>
+                XV DE RÊVE
+              </span>
+
+              <strong>
+                {{ match.scoreMyTeam }}
+              </strong>
+
+            </div>
+
+
+            <div class="final-separator">
+              -
+            </div>
+
+
+            <div>
+
+              <span>
+                {{ match.adverseTeam.country | displayName }}
+
+                {{ match.adverseTeam.year }}
+              </span>
+
+              <strong>
+                {{ match.scoreAdverseTeam }}
+              </strong>
+
+            </div>
+
+          </div>
+
+
+          @if (
+            match.matchName === 'POULE'
+          ) {
+
+            <div class="classification-points">
+
+              +
+              {{ match.bonusPoints }}
+              points au classement
+
+            </div>
+
+          }
+
+
+          @if (
+            displayedMatchNumber()
+            <
+            totalMatches()
+          ) {
+
+            <div class="next-match">
+
+              Prochain match...
+
+            </div>
+
+          } @else {
+
+            <div class="next-match">
+
+              Fin du tournoi...
+
+            </div>
+
+          }
+
+        </div>
+
+      </section>
+
+    }
+
+  }
+
+
+  <!-- ============================== -->
+  <!-- RESULTAT FINAL DU TOURNOI -->
+  <!-- ============================== -->
+
+  @if (phase() === 'FINISHED') {
+
+    @if (result(); as tournament) {
+
+      <section
+        class="result-hero"
+        [class.champion]="tournament.champion"
+      >
+
+        <span>
+          RÉSULTAT FINAL
+        </span>
+
+        <h2>
+          {{ statusTitle() }}
+        </h2>
+
+      </section>
+
+
+      <section class="stats">
+
+        <div>
+
+          <span>
+            Victoires
+          </span>
+
+          <strong>
+            {{ tournament.wins }}
+          </strong>
+
+        </div>
+
+
+        <div>
+
+          <span>
+            Défaites
+          </span>
+
+          <strong>
+            {{ tournament.losses }}
+          </strong>
+
+        </div>
+
+
+        <div>
+
+          <span>
+            Points
+          </span>
+
+          <strong>
+            {{ tournament.points }}
+          </strong>
+
+        </div>
+
+
+        <div>
+
+          <span>
+            Phase finale
+          </span>
+
+          <strong>
+            {{
+              tournament.qualified
+                ? 'Oui'
+                : 'Non'
+            }}
+          </strong>
+
+        </div>
+
+      </section>
+
+
+      <div class="matches-header">
+
+        <span>
+          PARCOURS
+        </span>
+
+        <h2>
+          Tous tes matchs
+        </h2>
+
+        <p>
+          Revivez ton parcours dans la compétition.
+        </p>
+
+      </div>
+
+
+      <section class="matches">
+
+        @for (
+          match of tournament.matches;
+          track $index
+        ) {
+
+          <app-match-card
+            [match]="match"
+          />
+
+        }
+
+      </section>
+
+
+      <div class="restart">
+
+        <a routerLink="/">
+          Recommencer une partie
+        </a>
+
+      </div>
+
+    }
 
   }
 

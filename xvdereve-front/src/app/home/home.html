@@ -1,30 +1,271 @@
-<main>
+<main class="home-page">
 
-  <h1>XV de rêve</h1>
+  <div class="background-xv" aria-hidden="true">
+    XV
+  </div>
 
-  <p>
-    Compose ton XV idéal avec les meilleurs joueurs
-    des différentes Coupes du monde.
-  </p>
 
-  <button
-    type="button"
-    (click)="startGame()"
-    [disabled]="loading()"
-  >
+  <header class="home-header">
 
-    @if (loading()) {
-      Chargement...
-    } @else {
-      Commencer une partie
-    }
+    <span class="brand">
+      XV DE RÊVE
+    </span>
 
-  </button>
+    <span class="game-label">
+      RUGBY DRAFT
+    </span>
 
-  @if (error()) {
-    <p>
-      {{ error() }}
-    </p>
-  }
+  </header>
 
-</main>   
+
+  <section class="hero">
+
+    <div class="hero-content">
+
+      <span class="eyebrow">
+        CONSTRUIS • AFFRONTE • GAGNE
+      </span>
+
+
+      <h1>
+        Crée ton
+        <span>XV de rêve.</span>
+      </h1>
+
+
+      <p class="hero-description">
+        Tire une nation, sélectionne les meilleurs joueurs
+        des différentes Coupes du monde et construis l'équipe
+        capable de remporter le tournoi.
+      </p>
+
+
+      <button
+        type="button"
+        class="play-button"
+        (click)="startGame()"
+        [disabled]="loading()"
+      >
+
+        @if (loading()) {
+
+          <span class="loader"></span>
+
+          Création de la partie...
+
+        } @else {
+
+          <span>
+            JOUER
+          </span>
+
+          <span class="play-arrow">
+            →
+          </span>
+
+        }
+
+      </button>
+
+
+      @if (error()) {
+
+        <div class="error">
+          {{ error() }}
+        </div>
+
+      }
+
+    </div>
+
+
+    <div class="hero-visual">
+
+      <div class="pitch-card">
+
+        <div class="pitch-header">
+
+          <div>
+
+            <span>
+              TON OBJECTIF
+            </span>
+
+            <h2>
+              Remporter le tournoi
+            </h2>
+
+          </div>
+
+          <span class="trophy">
+            ★
+          </span>
+
+        </div>
+
+
+        <div class="pitch">
+
+          <div class="half-line"></div>
+
+          <div class="center-circle"></div>
+
+          <div class="goal goal-top"></div>
+
+          <div class="goal goal-bottom"></div>
+
+
+          <div class="formation">
+
+            <span class="player-dot dot-1">1</span>
+            <span class="player-dot dot-2">2</span>
+            <span class="player-dot dot-3">3</span>
+
+            <span class="player-dot dot-4">4</span>
+            <span class="player-dot dot-5">5</span>
+
+            <span class="player-dot dot-6">6</span>
+            <span class="player-dot dot-7">7</span>
+            <span class="player-dot dot-8">8</span>
+
+            <span class="player-dot dot-9">9</span>
+            <span class="player-dot dot-10">10</span>
+
+            <span class="player-dot dot-11">11</span>
+            <span class="player-dot dot-12">12</span>
+            <span class="player-dot dot-13">13</span>
+            <span class="player-dot dot-14">14</span>
+            <span class="player-dot dot-15">15</span>
+
+          </div>
+
+        </div>
+
+
+        <div class="pitch-footer">
+
+          <span>
+            15 JOUEURS
+          </span>
+
+          <span>
+            1 BUTEUR
+          </span>
+
+          <span>
+            1 OBJECTIF
+          </span>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </section>
+
+
+  <section class="steps">
+
+    <article class="step">
+
+      <span class="step-number">
+        01
+      </span>
+
+      <div>
+
+        <span class="step-label">
+          TIRAGE
+        </span>
+
+        <h3>
+          Découvre ta nation
+        </h3>
+
+        <p>
+          Une équipe t'est attribuée pour commencer ton aventure.
+        </p>
+
+      </div>
+
+    </article>
+
+
+    <article class="step">
+
+      <span class="step-number">
+        02
+      </span>
+
+      <div>
+
+        <span class="step-label">
+          DRAFT
+        </span>
+
+        <h3>
+          Construis ton XV
+        </h3>
+
+        <p>
+          Sélectionne un joueur à chaque poste pour créer ton équipe.
+        </p>
+
+      </div>
+
+    </article>
+
+
+    <article class="step">
+
+      <span class="step-number">
+        03
+      </span>
+
+      <div>
+
+        <span class="step-label">
+          BUTEUR
+        </span>
+
+        <h3>
+          Fais ton choix
+        </h3>
+
+        <p>
+          Désigne le joueur qui prendra les pénalités et transformations.
+        </p>
+
+      </div>
+
+    </article>
+
+
+    <article class="step">
+
+      <span class="step-number">
+        04
+      </span>
+
+      <div>
+
+        <span class="step-label">
+          TOURNOI
+        </span>
+
+        <h3>
+          Va chercher le titre
+        </h3>
+
+        <p>
+          Affronte les autres nations et tente de remporter la compétition.
+        </p>
+
+      </div>
+
+    </article>
+
+  </section>
+
+</main>

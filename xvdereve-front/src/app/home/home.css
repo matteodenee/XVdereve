@@ -1,0 +1,852 @@
+:host {
+  display: block;
+
+  min-height: 100vh;
+
+  overflow: hidden;
+
+  background:
+    radial-gradient(
+      circle at 85% 10%,
+      #173d2a 0,
+      transparent 35%
+    ),
+    radial-gradient(
+      circle at 10% 90%,
+      rgba(216, 180, 91, 0.06) 0,
+      transparent 30%
+    ),
+    #09130e;
+}
+
+
+/* PAGE */
+
+.home-page {
+  position: relative;
+
+  width: min(1400px, calc(100% - 48px));
+  min-height: 100vh;
+
+  margin: auto;
+
+  padding: 35px 0 50px;
+}
+
+
+/* XV GEANT EN ARRIERE PLAN */
+
+.background-xv {
+  position: absolute;
+
+  top: 40px;
+  right: -30px;
+
+  color: rgba(255, 255, 255, 0.018);
+
+  font-size: clamp(220px, 35vw, 520px);
+  font-weight: 1000;
+
+  line-height: 0.8;
+
+  pointer-events: none;
+  user-select: none;
+
+  z-index: 0;
+}
+
+
+/* HEADER */
+
+.home-header {
+  position: relative;
+
+  z-index: 2;
+
+  display: flex;
+
+  align-items: center;
+  justify-content: space-between;
+}
+
+.brand {
+  color: #d8b45b;
+
+  font-size: 12px;
+  font-weight: 900;
+
+  letter-spacing: 3px;
+}
+
+.game-label {
+  padding: 8px 12px;
+
+  border: 1px solid rgba(216, 180, 91, 0.3);
+  border-radius: 7px;
+
+  color: #d8b45b;
+
+  font-size: 11px;
+  font-weight: 800;
+
+  letter-spacing: 2px;
+}
+
+
+/* HERO */
+
+.hero {
+  position: relative;
+
+  z-index: 1;
+
+  display: grid;
+
+  grid-template-columns:
+    minmax(0, 1fr)
+    minmax(400px, 520px);
+
+  align-items: center;
+
+  gap: 80px;
+
+  min-height: 650px;
+
+  padding: 55px 0;
+}
+
+
+/* TEXTE */
+
+.hero-content {
+  max-width: 720px;
+}
+
+.eyebrow {
+  display: inline-block;
+
+  margin-bottom: 20px;
+
+  color: #859b8c;
+
+  font-size: 11px;
+  font-weight: 800;
+
+  letter-spacing: 2.5px;
+}
+
+.hero h1 {
+  max-width: 780px;
+
+  margin: 0;
+
+  color: white;
+
+  font-size: clamp(52px, 7vw, 94px);
+  font-weight: 900;
+
+  line-height: 0.97;
+
+  letter-spacing: -3px;
+}
+
+.hero h1 span {
+  display: block;
+
+  color: #d8b45b;
+}
+
+.hero-description {
+  max-width: 600px;
+
+  margin: 28px 0 0;
+
+  color: #8fa597;
+
+  font-size: 17px;
+  line-height: 1.7;
+}
+
+
+/* BOUTON JOUER */
+
+.play-button {
+  display: flex;
+
+  align-items: center;
+  justify-content: space-between;
+
+  width: 270px;
+
+  margin-top: 38px;
+
+  padding: 18px 20px 18px 24px;
+
+  border: 0;
+  border-radius: 10px;
+
+  background: #d8b45b;
+
+  color: #14251c;
+
+  font-weight: 900;
+
+  letter-spacing: 1.5px;
+
+  cursor: pointer;
+
+  box-shadow:
+    0 14px 40px rgba(216, 180, 91, 0.12);
+
+  transition:
+    transform 0.2s,
+    box-shadow 0.2s,
+    background 0.2s;
+}
+
+.play-button:hover:not(:disabled) {
+  transform: translateY(-3px);
+
+  background: #e6c36e;
+
+  box-shadow:
+    0 18px 45px rgba(216, 180, 91, 0.19);
+}
+
+.play-button:active:not(:disabled) {
+  transform: translateY(0);
+}
+
+.play-button:disabled {
+  cursor: wait;
+
+  opacity: 0.75;
+}
+
+.play-arrow {
+  display: flex;
+
+  align-items: center;
+  justify-content: center;
+
+  width: 34px;
+  height: 34px;
+
+  border-radius: 7px;
+
+  background: rgba(20, 37, 28, 0.12);
+
+  font-size: 20px;
+
+  transition: transform 0.2s;
+}
+
+.play-button:hover .play-arrow {
+  transform: translateX(3px);
+}
+
+
+/* LOADER */
+
+.loader {
+  width: 16px;
+  height: 16px;
+
+  border: 2px solid rgba(20, 37, 28, 0.25);
+  border-top-color: #14251c;
+  border-radius: 50%;
+
+  animation: spin 0.7s linear infinite;
+}
+
+@keyframes spin {
+
+  to {
+    transform: rotate(360deg);
+  }
+
+}
+
+
+/* ERREUR */
+
+.error {
+  width: fit-content;
+
+  margin-top: 20px;
+
+  padding: 11px 15px;
+
+  border: 1px solid rgba(255, 100, 100, 0.2);
+  border-radius: 9px;
+
+  background: rgba(202, 58, 58, 0.14);
+
+  color: #ff9b9b;
+
+  font-size: 13px;
+}
+
+
+/* CARTE TERRAIN */
+
+.hero-visual {
+  display: flex;
+
+  justify-content: flex-end;
+}
+
+.pitch-card {
+  width: 100%;
+
+  padding: 20px;
+
+  border:
+    1px solid
+    rgba(255, 255, 255, 0.06);
+
+  border-radius: 18px;
+
+  background:
+    linear-gradient(
+      145deg,
+      rgba(18, 39, 28, 0.98),
+      rgba(12, 27, 19, 0.98)
+    );
+
+  box-shadow:
+    0 30px 80px rgba(0, 0, 0, 0.28);
+}
+
+
+/* HEADER CARTE */
+
+.pitch-header {
+  display: flex;
+
+  align-items: center;
+  justify-content: space-between;
+
+  padding: 4px 3px 17px;
+}
+
+.pitch-header span {
+  color: #859b8c;
+
+  font-size: 10px;
+  font-weight: 800;
+
+  letter-spacing: 1.7px;
+}
+
+.pitch-header h2 {
+  margin: 4px 0 0;
+
+  color: white;
+
+  font-size: 20px;
+}
+
+.pitch-header .trophy {
+  display: flex;
+
+  align-items: center;
+  justify-content: center;
+
+  width: 42px;
+  height: 42px;
+
+  border:
+    1px solid
+    rgba(216, 180, 91, 0.25);
+
+  border-radius: 10px;
+
+  color: #d8b45b;
+
+  font-size: 18px;
+}
+
+
+/* TERRAIN */
+
+.pitch {
+  position: relative;
+
+  height: 410px;
+
+  overflow: hidden;
+
+  border:
+    1px solid
+    rgba(216, 180, 91, 0.16);
+
+  border-radius: 13px;
+
+  background:
+    linear-gradient(
+      rgba(255, 255, 255, 0.018),
+      rgba(255, 255, 255, 0)
+    ),
+    #0d2b1b;
+}
+
+.pitch::before,
+.pitch::after {
+  content: '';
+
+  position: absolute;
+
+  left: 8%;
+  right: 8%;
+
+  height: 1px;
+
+  background:
+    rgba(255, 255, 255, 0.08);
+}
+
+.pitch::before {
+  top: 20%;
+}
+
+.pitch::after {
+  bottom: 20%;
+}
+
+.half-line {
+  position: absolute;
+
+  top: 50%;
+  left: 0;
+  right: 0;
+
+  height: 1px;
+
+  background:
+    rgba(255, 255, 255, 0.09);
+}
+
+.center-circle {
+  position: absolute;
+
+  top: 50%;
+  left: 50%;
+
+  width: 75px;
+  height: 75px;
+
+  border:
+    1px solid
+    rgba(255, 255, 255, 0.08);
+
+  border-radius: 50%;
+
+  transform: translate(-50%, -50%);
+}
+
+
+/* POTEAUX */
+
+.goal {
+  position: absolute;
+
+  left: 50%;
+
+  width: 65px;
+  height: 22px;
+
+  border-left:
+    2px solid
+    rgba(216, 180, 91, 0.28);
+
+  border-right:
+    2px solid
+    rgba(216, 180, 91, 0.28);
+
+  transform: translateX(-50%);
+}
+
+.goal-top {
+  top: 0;
+
+  border-bottom:
+    2px solid
+    rgba(216, 180, 91, 0.28);
+}
+
+.goal-bottom {
+  bottom: 0;
+
+  border-top:
+    2px solid
+    rgba(216, 180, 91, 0.28);
+}
+
+
+/* FORMATION */
+
+.formation {
+  position: absolute;
+
+  inset: 0;
+}
+
+.player-dot {
+  position: absolute;
+
+  display: flex;
+
+  align-items: center;
+  justify-content: center;
+
+  width: 28px;
+  height: 28px;
+
+  border:
+    1px solid
+    rgba(216, 180, 91, 0.35);
+
+  border-radius: 50%;
+
+  background: #142f21;
+
+  color: #d8b45b;
+
+  font-size: 9px;
+  font-weight: 900;
+
+  box-shadow:
+    0 4px 12px
+    rgba(0, 0, 0, 0.3);
+
+  transform: translate(-50%, -50%);
+}
+
+
+/* AVANTS */
+
+.dot-1 {
+  top: 13%;
+  left: 35%;
+}
+
+.dot-2 {
+  top: 10%;
+  left: 50%;
+}
+
+.dot-3 {
+  top: 13%;
+  left: 65%;
+}
+
+.dot-4 {
+  top: 23%;
+  left: 42%;
+}
+
+.dot-5 {
+  top: 23%;
+  left: 58%;
+}
+
+.dot-6 {
+  top: 34%;
+  left: 35%;
+}
+
+.dot-7 {
+  top: 34%;
+  left: 65%;
+}
+
+.dot-8 {
+  top: 38%;
+  left: 50%;
+}
+
+
+/* CHARNIERE */
+
+.dot-9 {
+  top: 49%;
+  left: 44%;
+}
+
+.dot-10 {
+  top: 58%;
+  left: 53%;
+}
+
+
+/* TROIS-QUARTS */
+
+.dot-11 {
+  top: 70%;
+  left: 20%;
+}
+
+.dot-12 {
+  top: 68%;
+  left: 42%;
+}
+
+.dot-13 {
+  top: 68%;
+  left: 61%;
+}
+
+.dot-14 {
+  top: 70%;
+  left: 81%;
+}
+
+.dot-15 {
+  top: 86%;
+  left: 50%;
+}
+
+
+/* FOOTER TERRAIN */
+
+.pitch-footer {
+  display: flex;
+
+  justify-content: space-between;
+
+  padding: 16px 3px 2px;
+}
+
+.pitch-footer span {
+  color: #70877a;
+
+  font-size: 9px;
+  font-weight: 800;
+
+  letter-spacing: 1.2px;
+}
+
+
+/* ETAPES */
+
+.steps {
+  position: relative;
+
+  z-index: 2;
+
+  display: grid;
+
+  grid-template-columns:
+    repeat(4, 1fr);
+
+  border-top:
+    1px solid
+    rgba(255, 255, 255, 0.05);
+
+  padding-top: 28px;
+}
+
+.step {
+  display: flex;
+
+  gap: 18px;
+
+  padding: 10px 28px;
+
+  border-right:
+    1px solid
+    rgba(255, 255, 255, 0.05);
+}
+
+.step:first-child {
+  padding-left: 0;
+}
+
+.step:last-child {
+  border-right: 0;
+}
+
+.step-number {
+  color: rgba(216, 180, 91, 0.35);
+
+  font-size: 30px;
+  font-weight: 900;
+
+  line-height: 1;
+}
+
+.step-label {
+  color: #d8b45b;
+
+  font-size: 9px;
+  font-weight: 900;
+
+  letter-spacing: 1.7px;
+}
+
+.step h3 {
+  margin: 5px 0 8px;
+
+  color: white;
+
+  font-size: 15px;
+}
+
+.step p {
+  margin: 0;
+
+  color: #70877a;
+
+  font-size: 12px;
+  line-height: 1.55;
+}
+
+
+/* TABLETTE */
+
+@media (max-width: 1050px) {
+
+  .hero {
+    grid-template-columns: 1fr;
+
+    gap: 45px;
+
+    padding-top: 80px;
+  }
+
+  .hero-content {
+    max-width: 800px;
+  }
+
+  .hero-visual {
+    justify-content: flex-start;
+  }
+
+  .pitch-card {
+    max-width: 550px;
+  }
+
+  .steps {
+    grid-template-columns:
+      repeat(2, 1fr);
+
+    gap: 20px 0;
+  }
+
+  .step:nth-child(2) {
+    border-right: 0;
+  }
+
+}
+
+
+/* MOBILE */
+
+@media (max-width: 700px) {
+
+  .home-page {
+    width: min(
+      100% - 28px,
+      1400px
+    );
+
+    padding-top: 25px;
+  }
+
+  .hero {
+    min-height: auto;
+
+    padding: 75px 0 45px;
+  }
+
+  .hero h1 {
+    font-size: clamp(
+      48px,
+      15vw,
+      72px
+    );
+
+    letter-spacing: -2px;
+  }
+
+  .hero-description {
+    font-size: 15px;
+  }
+
+  .play-button {
+    width: 100%;
+  }
+
+  .pitch {
+    height: 370px;
+  }
+
+  .steps {
+    grid-template-columns: 1fr;
+
+    padding-bottom: 20px;
+  }
+
+  .step {
+    padding:
+      18px 0;
+
+    border-right: 0;
+
+    border-bottom:
+      1px solid
+      rgba(255, 255, 255, 0.05);
+  }
+
+  .step:last-child {
+    border-bottom: 0;
+  }
+
+  .background-xv {
+    top: 130px;
+
+    right: -20px;
+
+    font-size: 240px;
+  }
+
+}
+
+
+/* PETITS ECRANS */
+
+@media (max-width: 450px) {
+
+  .home-page {
+    width: min(
+      100% - 20px,
+      1400px
+    );
+  }
+
+  .game-label {
+    display: none;
+  }
+
+  .hero {
+    padding-top: 65px;
+  }
+
+  .pitch-card {
+    padding: 14px;
+  }
+
+  .pitch {
+    height: 340px;
+  }
+
+  .pitch-footer {
+    gap: 8px;
+  }
+
+  .pitch-footer span {
+    font-size: 8px;
+  }
+
+}
