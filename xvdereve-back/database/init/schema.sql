@@ -1,7 +1,7 @@
 CREATE TABLE team (
     id SERIAL PRIMARY KEY,
 
-    year SMALLINT NOT NULL,
+    year INTEGER NOT NULL,
     country VARCHAR(100) NOT NULL,
 
     description TEXT,
@@ -22,7 +22,7 @@ CREATE TABLE player (
 
     name VARCHAR(150) NOT NULL,
     position VARCHAR(50) NOT NULL,
-    overall SMALLINT NOT NULL,
+    overall INTEGER NOT NULL,
     can_kick BOOLEAN NOT NULL DEFAULT FALSE,
 
     CONSTRAINT fk_player_team

@@ -1,4 +1,5 @@
 services:
+
   postgres:
     image: postgres:17
     container_name: xvdereve-postgres
@@ -16,6 +17,38 @@ services:
       - postgres_data:/var/lib/postgresql/data
       - ./xvdereve-back/database/init:/docker-entrypoint-initdb.d:ro
       - ./xvdereve-back/csv:/csv:ro
+
+
+  backend:
+    build:
+      context: ./xvdereve-back
+
+    container_name: xvdereve-back
+
+    ports:
+      - "8080:8080"
+
+    depends_on:
+      - postgres
+
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/xvdereve
+      SPRING_DATASOURCE_USERNAME: xvdereve
+      SPRING_DATASOURCE_PASSWORD: xvdereve
+
+
+  frontend:
+    build:
+      context: ./xvdereve-front
+
+    container_name: xvdereve-front
+
+    ports:
+      - "4200:4200"
+
+    depends_on:
+      - backend
+
 
 volumes:
   postgres_data:

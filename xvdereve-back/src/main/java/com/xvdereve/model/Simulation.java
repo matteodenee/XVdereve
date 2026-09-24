@@ -66,19 +66,19 @@ public class  Simulation {
         return (randomInt <= efficacity); 
     }
 
-    private int GetBonusPoint(int scoreMyTeam , int scoreAdverseTeam){
+    private int GetBonusPoint(int scoreMyTeam , int scoreAdverseTeam , int nbTry){
         int bonusDefMin = 5;
         int bonusDefPoint = 1;
-        int bonusOffMin = 15;
         int bonusOffPoint = 1;
+        int bonusOffTryNb = 1;
         int winPoint = 4;
         int egalityPoint =1; 
         int bonus = 0;
+        if (nbTry >= bonusOffTryNb ){
+            bonus += bonusOffPoint;
+        }
         if (scoreMyTeam > scoreAdverseTeam){
             bonus += winPoint;
-            if ((scoreMyTeam - scoreAdverseTeam) >= bonusOffMin) {
-                bonus += bonusOffPoint;
-            }
         }
         else if (scoreAdverseTeam > scoreMyTeam) {
             if ((scoreAdverseTeam - scoreMyTeam) <= bonusDefMin) {
@@ -100,6 +100,8 @@ public class  Simulation {
         int transformPoint = 2;
         int penalitePoint = 3;
         int dropPoint = 3;
+        int nbTryMyTeam = 0;
+        int nbTryAdverseTeam = 0;
         int scoreMyTeam = 0;
         int scoreAdverseTeam = 0;
         int coteMyTeam = CalculatemyTeamCote(myTeam, adverseTeam);
@@ -117,6 +119,7 @@ public class  Simulation {
             if (nbMyTeamTryOccasion > 0) {
                 if ( IsScored(myTeamEfficacity)) {
                     scoreMyTeam += tryPoint;
+                    nbTryMyTeam += 1;
                     events.add(new MatchEvent(EventType.ESSAI, WhoScoredTry(myTeam), tryPoint, scoreMyTeam, scoreAdverseTeam, true));
                     if ( IsTransform(mykicker)) {
                         scoreMyTeam += transformPoint;
@@ -127,6 +130,7 @@ public class  Simulation {
             }
             if (nbAdverseTeamTryOccasion > 0) {
                 if ( IsScored(adverseTeamEfficacity)) {
+                    nbTryAdverseTeam += 1 ;
                     scoreAdverseTeam += tryPoint;
                     events.add(new MatchEvent(EventType.ESSAI, WhoScoredTry(adverseTeam), tryPoint, scoreMyTeam, scoreAdverseTeam, false));
                     if ( IsTransform(adverseKicker)) {
@@ -170,7 +174,7 @@ public class  Simulation {
         }
         
 
-        int bonusPoint = GetBonusPoint(scoreMyTeam,scoreAdverseTeam);
+        int bonusPoint = GetBonusPoint(scoreMyTeam,scoreAdverseTeam,nbTryMyTeam);
         MatchResult res = new MatchResult(myTeam, adverseTeam , scoreMyTeam, scoreAdverseTeam, bonusPoint,events) ;
         return res;
     }
@@ -341,7 +345,7 @@ public class  Simulation {
         int myScore = 0;
         int minScoreToGoInPlayOff = 14;
         int nbPlayOffGame = finalsName.size();
-        int nbGroupGame = 5;
+        int nbGroupGame = 4;
         int myWinRate = 0;
         int adverseWinRate = 0;
         for(int i = 0 ; i < nbGroupGame ; i++){
