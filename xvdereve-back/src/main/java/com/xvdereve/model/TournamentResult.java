@@ -1,4 +1,5 @@
 package com.xvdereve.model;
+
 import java.util.ArrayList;
 
 public class TournamentResult {
@@ -11,6 +12,8 @@ public class TournamentResult {
     private int losses;
 
     private ArrayList<MatchResult> matches;
+    private ArrayList<PoolStanding> poolStandings = new ArrayList<>();
+    private ArrayList<MatchResult> poolMatches = new ArrayList<>();
 
     public TournamentResult(
             boolean qualified,
@@ -18,8 +21,8 @@ public class TournamentResult {
             int points,
             int wins,
             int losses,
-            ArrayList<MatchResult> matches) {
-
+            ArrayList<MatchResult> matches
+    ) {
         this.qualified = qualified;
         this.champion = champion;
         this.points = points;
@@ -50,5 +53,21 @@ public class TournamentResult {
 
     public ArrayList<MatchResult> getMatches() {
         return matches;
+    }
+
+    public ArrayList<PoolStanding> getPoolStandings() {
+        return poolStandings;
+    }
+
+    public void setPoolStandings(ArrayList<PoolStanding> poolStandings) {
+        this.poolStandings = poolStandings;
+    }
+
+    public ArrayList<MatchResult> getPoolMatches() {
+        return poolMatches;
+    }
+
+    public void setPoolMatches(ArrayList<MatchResult> poolMatches) {
+        this.poolMatches = poolMatches;
     }
 }

@@ -1,8 +1,12 @@
 package com.xvdereve.model;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Random;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Random;
+import java.util.Set;
 
 
 public class  Simulation {
@@ -395,6 +399,40 @@ public class  Simulation {
         return Math.random() < probability;
     }
 
+    private void updatePoolStandings(
+            MatchResult match,
+            PoolStanding first,
+            PoolStanding second
+    ) {
+        int firstTries = 0;
+        int secondTries = 0;
+
+        for (MatchEvent event : match.getEvents()) {
+            if (event.getType() == EventType.ESSAI) {
+                if (event.isMyTeamEvent()) {
+                    firstTries++;
+                } else {
+                    secondTries++;
+                }
+            }
+        }
+
+        int firstScore = match.getScoreMyTeam();
+        int secondScore = match.getScoreAdverseTeam();
+
+        // Même barème pour les deux équipes.
+        int firstPoints = GetBonusPoint(
+                firstScore, secondScore, firstTries
+        );
+
+        int secondPoints = GetBonusPoint(
+                secondScore, firstScore, secondTries
+        );
+
+        first.addResult(firstScore, secondScore, firstPoints);
+        second.addResult(secondScore, firstScore, secondPoints);
+    }
+
     private Team CreateBestAdverseTeam(Team randomTeam) {
 
         ArrayList<Player> selectedPlayers = new ArrayList<>();
@@ -444,60 +482,191 @@ public class  Simulation {
     }
 
 
-    public static TournamentResult PlayTournament(YourTeam myTeam , ArrayList<Team> teams){
-        boolean win = true;
-        boolean qualified = false;
+    public static TournamentResult PlayTournament(
+            YourTeam myTeam,
+            ArrayList<Team> teams
+    ) {
+        Simulation sim = new Simulation();
+
+        ArrayList<MatchResult> matches = new ArrayList<>();
+        ArrayList<MatchResult> poolMatches = new ArrayList<>();
+        ArrayList<PoolStanding> standings = new ArrayList<>();
+
+        // 1. Tirer quatre adversaires différents.
+        // On mélange une copie pour ne pas modifier la liste du jeu.
+        ArrayList<Team> candidates = new ArrayList<>(teams);
+        Collections.shuffle(candidates, RANDOM);
+
+        ArrayList<Team> opponents = new ArrayList<>();
+        Set<String> selectedTeams = new HashSet<>();
+
+        for (Team candidate : candidates) {
+            String key = candidate.getCountry() + ":" + candidate.getYear();
+
+            if (!selectedTeams.add(key)) {
+                continue;
+            }
+
+            Team opponent = sim.CreateBestAdverseTeam(candidate);
+
+            // Une équipe doit pouvoir aligner un XV complet.
+            if (opponent.getPlayers().size() != 15) {
+                continue;
+            }
+
+            opponents.add(opponent);
+
+            if (opponents.size() == 4) {
+                break;
+            }
+        }
+
+        if (opponents.size() < 4) {
+            throw new IllegalStateException(
+                    "Il faut au moins quatre équipes adverses complètes."
+            );
+        }
+
+        // 2. Créer les cinq lignes du classement.
+        PoolStanding playerStanding = new PoolStanding(myTeam.team, true);
+        standings.add(playerStanding);
+
+        for (Team opponent : opponents) {
+            standings.add(new PoolStanding(opponent, false));
+        }
+
+        // 3. Jouer les quatre matchs du joueur.
+        for (int i = 0; i < opponents.size(); i++) {
+            Team opponent = opponents.get(i);
+
+            MatchResult match = sim.SimulateMatch(
+                    myTeam.team,
+                    opponent,
+                    myTeam.kicker
+            );
+
+            match.setMatchName(MatchName.POULE, i + 1);
+
+            matches.add(match);
+            poolMatches.add(match);
+
+            sim.updatePoolStandings(
+                    match,
+                    playerStanding,
+                    standings.get(i + 1)
+            );
+        }
+
+        // 4. Jouer les six rencontres entre les quatre adversaires.
+        for (int i = 0; i < opponents.size(); i++) {
+            for (int j = i + 1; j < opponents.size(); j++) {
+                Team firstTeam = opponents.get(i);
+                Team secondTeam = opponents.get(j);
+
+                MatchResult match = sim.SimulateMatch(
+                        firstTeam,
+                        secondTeam,
+                        sim.GetAdverseKicker(firstTeam)
+                );
+
+                match.setMatchName(
+                        MatchName.POULE,
+                        poolMatches.size() + 1
+                );
+
+                poolMatches.add(match);
+
+                sim.updatePoolStandings(
+                        match,
+                        standings.get(i + 1),
+                        standings.get(j + 1)
+                );
+            }
+        }
+
+        // 5. Classer les équipes :
+        // points, différence de score, puis points marqués.
+        //
+        // En cas d'égalité parfaite, l'ordre aléatoire initial
+        // départage les équipes sans favoriser le joueur.
+        Collections.shuffle(standings, RANDOM);
+
+        standings.sort(
+                Comparator.comparingInt(PoolStanding::getPoints)
+                        .reversed()
+                        .thenComparing(
+                                Comparator.comparingInt(
+                                        PoolStanding::getPointsDifference
+                                ).reversed()
+                        )
+                        .thenComparing(
+                                Comparator.comparingInt(
+                                        PoolStanding::getPointsFor
+                                ).reversed()
+                        )
+        );
+
+        // 6. Les deux premiers se qualifient.
+        boolean qualified = standings.indexOf(playerStanding) < 2;
         boolean champion = false;
-        ArrayList<MatchResult> matchs = new ArrayList<>();
-        Simulation sim   = new  Simulation();
-        ArrayList<MatchName> finalsName = new ArrayList<>();
-        finalsName.add(MatchName.QUART_DE_FINALE);
-        finalsName.add(MatchName.DEMI_FINALE);
-        finalsName.add(MatchName.FINALE);
-        int myScore = 0;
-        int minScoreToGoInPlayOff = 14;
-        int nbPlayOffGame = finalsName.size();
-        int nbGroupGame = 4;
-        int myWinRate = 0;
-        int adverseWinRate = 0;
-        for(int i = 0 ; i < nbGroupGame ; i++){
-                Team randTeam = YourTeam.GetRandomTeam(teams);
-                Team adverseteam =  sim.CreateBestAdverseTeam(randTeam);
-                MatchResult res =  sim.SimulateMatch(myTeam.team, adverseteam,myTeam.kicker);
-                res.setMatchName(MatchName.POULE,i+1);
-                matchs.add(res);
-                myScore += res.getBonusPoints();
-                if (res.getScoreMyTeam() > res.getScoreAdverseTeam()) {
-                    myWinRate += 1;
-                }else if (res.getScoreAdverseTeam() > res.getScoreMyTeam()){
-                    adverseWinRate += 1;
-                }
+
+        // Statistiques du joueur.
+        int points = playerStanding.getPoints();
+        int wins = playerStanding.getWins();
+        int losses = playerStanding.getLosses();
+
+        // 7. Phases finales : fonctionnement actuel conservé.
+        MatchName[] finalRounds = {
+                MatchName.QUART_DE_FINALE,
+                MatchName.DEMI_FINALE,
+                MatchName.FINALE
+        };
+
+        if (qualified) {
+            for (MatchName round : finalRounds) {
+                Team opponent = sim.CreateBestAdverseTeam(
+                        YourTeam.GetRandomTeam(teams)
+                );
+
+                MatchResult match = sim.simulateFinalsMatch(
+                        myTeam.team,
+                        opponent,
+                        myTeam.kicker
+                );
+
+                match.setMatchName(round);
+                matches.add(match);
+
+                // On conserve le cumul historique du bilan actuel.
+                // Le classement de poule, lui, ne change plus.
+                points += match.getBonusPoints();
+
+                if (!match.isVictory()) {
+                    losses++;
+                    break;
                 }
 
-        if (myScore >= minScoreToGoInPlayOff) {
-            int i = 0;
-            qualified = true;
-            while (win && nbPlayOffGame > 0) {  
-                Team adverseteam =  sim.CreateBestAdverseTeam(YourTeam.GetRandomTeam(teams));
-                MatchResult res =  sim.simulateFinalsMatch(myTeam.team, adverseteam,myTeam.kicker);
-                res.setMatchName(finalsName.get(i));
-                matchs.add(res);
-                myScore += res.getBonusPoints();
-                if (res.isVictory()) {
-                    myWinRate += 1;
-                } else {
-                    win = false;
-                    adverseWinRate += 1;
+                wins++;
+
+                if (round == MatchName.FINALE) {
+                    champion = true;
                 }
-                nbPlayOffGame -=1;
-                i +=1;
             }
-            if (nbPlayOffGame <= 0 && win) {
-                champion = true;
-            }
-        } 
-        TournamentResult tournamentResult = new TournamentResult(qualified, champion, myScore, myWinRate, adverseWinRate, matchs);
-        return tournamentResult;
+        }
+
+        TournamentResult result = new TournamentResult(
+                qualified,
+                champion,
+                points,
+                wins,
+                losses,
+                matches
+        );
+
+        result.setPoolStandings(standings);
+        result.setPoolMatches(poolMatches);
+
+        return result;
     }
 
 
