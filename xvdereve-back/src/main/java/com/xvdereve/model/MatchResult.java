@@ -79,6 +79,9 @@ public class MatchResult {
     public boolean isVictory() {
         return victory;
     }
+    public void setVictory(boolean victory) {
+        this.victory = victory;
+    }
 
     public int getBonusPoints() {
         return bonusPoints;

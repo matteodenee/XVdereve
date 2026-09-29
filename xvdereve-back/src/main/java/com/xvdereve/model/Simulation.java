@@ -6,7 +6,8 @@ import java.util.Random;
 
 
 public class  Simulation {
-   private static final Random RANDOM = new Random();
+    private static final Random RANDOM = new Random();
+   
    
     private int CalculatemyTeamCote(Team myTeam, Team adverseTeam){
         double coefRegulator = 0.7;
@@ -92,92 +93,99 @@ public class  Simulation {
     }
 
 
+    private MatchResult SimulateMatch(Team myTeam, Team adverseTeam, Player mykicker) {
+        return SimulateMatch(myTeam, adverseTeam, mykicker, 1.0);
+    }
 
-    private  MatchResult  SimulateMatch(Team myTeam , Team adverseTeam , Player mykicker){
-        Player adverseKicker = GetAdverseKicker(adverseTeam) ;
-        ArrayList<MatchEvent> events = new ArrayList<>();
-        int tryPoint = 5;
-        int transformPoint = 2;
-        int penalitePoint = 3;
-        int dropPoint = 3;
-        int nbTryMyTeam = 0;
-        int nbTryAdverseTeam = 0;
-        int scoreMyTeam = 0;
-        int scoreAdverseTeam = 0;
-        int coteMyTeam = CalculatemyTeamCote(myTeam, adverseTeam);
-        int coteAdverseTeam = CalculateAdverseTeamCote(coteMyTeam);
-        int nbMyTeamTryOccasion = CalculateTryOccasion(coteMyTeam);
-        int nbAdverseTeamTryOccasion =  CalculateTryOccasion(coteAdverseTeam);
-        int nbMyTeamPenaltyOccasion =  CalaculatePenaltyOccasion(coteMyTeam);
-        int nbAdverseTeamPenaltyOccasion =  CalaculatePenaltyOccasion(coteAdverseTeam);
-        int adverseTeamEfficacity = TryEfficacity(adverseTeam);
-        int myTeamEfficacity = TryEfficacity(myTeam);
-        while ( nbAdverseTeamTryOccasion > 0 ||
-            nbMyTeamTryOccasion > 0 ||
-            nbMyTeamPenaltyOccasion > 0 ||
-            nbAdverseTeamPenaltyOccasion > 0 ) {
-            if (nbMyTeamTryOccasion > 0) {
-                if ( IsScored(myTeamEfficacity)) {
-                    scoreMyTeam += tryPoint;
-                    nbTryMyTeam += 1;
-                    events.add(new MatchEvent(EventType.ESSAI, WhoScoredTry(myTeam), tryPoint, scoreMyTeam, scoreAdverseTeam, true));
-                    if ( IsTransform(mykicker)) {
-                        scoreMyTeam += transformPoint;
-                        events.add(new MatchEvent(EventType.TRANSFORMATION, mykicker, transformPoint, scoreMyTeam, scoreAdverseTeam, true));
+    private MatchResult SimulateMatch(Team myTeam, Team adverseTeam, Player mykicker, double opportunityFactor) {
+            Player adverseKicker = GetAdverseKicker(adverseTeam);
+            ArrayList<MatchEvent> events = new ArrayList<>();
+
+            int tryPoint = 5;
+            int transformPoint = 2;
+            int penalitePoint = 3;
+            int dropPoint = 3;
+            int nbTryMyTeam = 0;
+            int nbTryAdverseTeam = 0;
+            int scoreMyTeam = 0;
+            int scoreAdverseTeam = 0;
+
+            int coteMyTeam = CalculatemyTeamCote(myTeam, adverseTeam);
+            int coteAdverseTeam = CalculateAdverseTeamCote(coteMyTeam);
+
+            int nbMyTeamTryOccasion = (int) Math.round(CalculateTryOccasion(coteMyTeam) * opportunityFactor);
+            int nbAdverseTeamTryOccasion = (int) Math.round(CalculateTryOccasion(coteAdverseTeam) * opportunityFactor);
+            int nbMyTeamPenaltyOccasion = (int) Math.round(CalaculatePenaltyOccasion(coteMyTeam) * opportunityFactor);
+            int nbAdverseTeamPenaltyOccasion = (int) Math.round(CalaculatePenaltyOccasion(coteAdverseTeam) * opportunityFactor);
+
+            int adverseTeamEfficacity = TryEfficacity(adverseTeam);
+            int myTeamEfficacity = TryEfficacity(myTeam);
+
+            while (nbAdverseTeamTryOccasion > 0 || nbMyTeamTryOccasion > 0 || nbMyTeamPenaltyOccasion > 0 || nbAdverseTeamPenaltyOccasion > 0) {
+                if (nbMyTeamTryOccasion > 0) {
+                    if (IsScored(myTeamEfficacity)) {
+                        scoreMyTeam += tryPoint;
+                        nbTryMyTeam += 1;
+                        events.add(new MatchEvent(EventType.ESSAI, WhoScoredTry(myTeam), tryPoint, scoreMyTeam, scoreAdverseTeam, true));
+
+                        if (IsTransform(mykicker)) {
+                            scoreMyTeam += transformPoint;
+                            events.add(new MatchEvent(EventType.TRANSFORMATION, mykicker, transformPoint, scoreMyTeam, scoreAdverseTeam, true));
+                        }
                     }
+                    nbMyTeamTryOccasion -= 1;
                 }
-                nbMyTeamTryOccasion -= 1 ;    
-            }
-            if (nbAdverseTeamTryOccasion > 0) {
-                if ( IsScored(adverseTeamEfficacity)) {
-                    nbTryAdverseTeam += 1 ;
-                    scoreAdverseTeam += tryPoint;
-                    events.add(new MatchEvent(EventType.ESSAI, WhoScoredTry(adverseTeam), tryPoint, scoreMyTeam, scoreAdverseTeam, false));
-                    if ( IsTransform(adverseKicker)) {
-                        scoreAdverseTeam += transformPoint;
-                        events.add(new MatchEvent(EventType.TRANSFORMATION, adverseKicker, transformPoint, scoreMyTeam, scoreAdverseTeam, false));
+
+                if (nbAdverseTeamTryOccasion > 0) {
+                    if (IsScored(adverseTeamEfficacity)) {
+                        nbTryAdverseTeam += 1;
+                        scoreAdverseTeam += tryPoint;
+                        events.add(new MatchEvent(EventType.ESSAI, WhoScoredTry(adverseTeam), tryPoint, scoreMyTeam, scoreAdverseTeam, false));
+
+                        if (IsTransform(adverseKicker)) {
+                            scoreAdverseTeam += transformPoint;
+                            events.add(new MatchEvent(EventType.TRANSFORMATION, adverseKicker, transformPoint, scoreMyTeam, scoreAdverseTeam, false));
+                        }
                     }
+                    nbAdverseTeamTryOccasion -= 1;
                 }
-                nbAdverseTeamTryOccasion -= 1 ;
-            }
-            if (nbMyTeamPenaltyOccasion > 0) {
-                    if ( IsTransform(mykicker)) {
+
+                if (nbMyTeamPenaltyOccasion > 0) {
+                    if (IsTransform(mykicker)) {
                         scoreMyTeam += penalitePoint;
                         events.add(new MatchEvent(EventType.PENALITE, mykicker, penalitePoint, scoreMyTeam, scoreAdverseTeam, true));
                     }
-                nbMyTeamPenaltyOccasion -= 1 ;    
-            }
-            if (nbAdverseTeamPenaltyOccasion > 0) {
+                    nbMyTeamPenaltyOccasion -= 1;
+                }
 
-                    if ( IsTransform(adverseKicker)) {
+                if (nbAdverseTeamPenaltyOccasion > 0) {
+                    if (IsTransform(adverseKicker)) {
                         scoreAdverseTeam += penalitePoint;
                         events.add(new MatchEvent(EventType.PENALITE, adverseKicker, penalitePoint, scoreMyTeam, scoreAdverseTeam, false));
                     }
-                nbAdverseTeamPenaltyOccasion -= 1 ;
-            }
-
-        }
-        Team dropTeam = WhoTryDrop(myTeam, adverseTeam, scoreMyTeam, scoreAdverseTeam, tryPoint, coteAdverseTeam, coteMyTeam);
-        if (dropTeam != null) {
-            if (dropTeam.equals(myTeam)) {
-                if ( TryDrop(mykicker)) {
-                    scoreMyTeam += dropPoint;
-                    events.add(new MatchEvent(EventType.DROP, mykicker, dropPoint, scoreMyTeam, scoreAdverseTeam, true));
-                }
-            }else{
-                    if ( TryDrop(adverseKicker)) {
-                    scoreAdverseTeam += dropPoint;
-                    events.add(new MatchEvent(EventType.DROP, adverseKicker, dropPoint, scoreMyTeam, scoreAdverseTeam, false));
+                    nbAdverseTeamPenaltyOccasion -= 1;
                 }
             }
-            
-        }
-        
 
-        int bonusPoint = GetBonusPoint(scoreMyTeam,scoreAdverseTeam,nbTryMyTeam);
-        MatchResult res = new MatchResult(myTeam, adverseTeam , scoreMyTeam, scoreAdverseTeam, bonusPoint,events) ;
-        return res;
-    }
+            Team dropTeam = WhoTryDrop(myTeam, adverseTeam, scoreMyTeam, scoreAdverseTeam, dropPoint, coteAdverseTeam, coteMyTeam);
+
+            if (dropTeam != null) {
+                if (dropTeam.equals(myTeam)) {
+                    if (TryDrop(mykicker)) {
+                        scoreMyTeam += dropPoint;
+                        events.add(new MatchEvent(EventType.DROP, mykicker, dropPoint, scoreMyTeam, scoreAdverseTeam, true));
+                    }
+                } else {
+                    if (TryDrop(adverseKicker)) {
+                        scoreAdverseTeam += dropPoint;
+                        events.add(new MatchEvent(EventType.DROP, adverseKicker, dropPoint, scoreMyTeam, scoreAdverseTeam, false));
+                    }
+                }
+            }
+
+            int bonusPoint = GetBonusPoint(scoreMyTeam, scoreAdverseTeam, nbTryMyTeam);
+            return new MatchResult(myTeam, adverseTeam, scoreMyTeam, scoreAdverseTeam, bonusPoint, events);
+        }
 
     private Player WhoScoredTry(Team team) {
 
@@ -282,6 +290,110 @@ public class  Simulation {
         }
         return team;
     }
+    private MatchResult simulateExtraTime(
+            Team myTeam,
+            Team adverseTeam,
+            Player kicker
+    ) {
+        double extraTimeFactor = 0.25;
+
+        return SimulateMatch(
+                myTeam,
+                adverseTeam,
+                kicker,
+                extraTimeFactor
+        );
+    }
+
+    private MatchResult simulatePenaltyShootout(Team myTeam, Team adverseTeam, Player myKicker, int scoreMyTeam, int scoreAdverseTeam, ArrayList<MatchEvent> events) {
+        int penaltyShootoutKicks = 5;
+        Player adverseKicker = GetAdverseKicker(adverseTeam);
+
+        int mySuccessfulKicks = 0;
+        int adverseSuccessfulKicks = 0;
+
+        for (int i = 0; i < penaltyShootoutKicks; i++) {
+            if (isKickSuccessful(myKicker)) mySuccessfulKicks++;
+            if (isKickSuccessful(adverseKicker)) adverseSuccessfulKicks++;
+        }
+
+        while (mySuccessfulKicks == adverseSuccessfulKicks) {
+            boolean myKick = isKickSuccessful(myKicker);
+            boolean adverseKick = isKickSuccessful(adverseKicker);
+
+            if (myKick && !adverseKick) mySuccessfulKicks++;
+            else if (!myKick && adverseKick) adverseSuccessfulKicks++;
+        }
+
+        int nbTryMyTeam = 0;
+        for (MatchEvent event : events) {
+            if (event.getType() == EventType.ESSAI && event.isMyTeamEvent()) nbTryMyTeam++;
+        }
+
+        int bonusPoint = GetBonusPoint(scoreMyTeam, scoreAdverseTeam, nbTryMyTeam);
+
+        MatchResult result = new MatchResult(myTeam, adverseTeam, scoreMyTeam, scoreAdverseTeam, bonusPoint, events);
+        result.setVictory(mySuccessfulKicks > adverseSuccessfulKicks);
+
+        return result;
+    }
+
+    private MatchResult simulateFinalsMatch(Team myTeam, Team adverseTeam, Player kicker) {
+        MatchResult result = SimulateMatch(myTeam, adverseTeam, kicker);
+
+        if (result.getScoreMyTeam() != result.getScoreAdverseTeam()) {
+            return result;
+        }
+
+        MatchResult extraTimeResult = simulateExtraTime(myTeam, adverseTeam, kicker);
+
+        int finalMyScore = result.getScoreMyTeam() + extraTimeResult.getScoreMyTeam();
+        int finalAdverseScore = result.getScoreAdverseTeam() + extraTimeResult.getScoreAdverseTeam();
+
+        ArrayList<MatchEvent> events = new ArrayList<>(result.getEvents());
+
+        for (MatchEvent event : extraTimeResult.getEvents()) {
+            events.add(new MatchEvent(
+                    event.getType(),
+                    event.getPlayer(),
+                    event.getPoints(),
+                    result.getScoreMyTeam() + event.getScoreMyTeam(),
+                    result.getScoreAdverseTeam() + event.getScoreAdverseTeam(),
+                    event.isMyTeamEvent()
+            ));
+        }
+
+        if (finalMyScore != finalAdverseScore) {
+            int nbTryMyTeam = 0;
+
+            for (MatchEvent event : events) {
+                if (event.getType() == EventType.ESSAI && event.isMyTeamEvent()) {
+                    nbTryMyTeam++;
+                }
+            }
+
+            int bonusPoint = GetBonusPoint(finalMyScore, finalAdverseScore, nbTryMyTeam);
+
+            return new MatchResult(myTeam, adverseTeam, finalMyScore, finalAdverseScore, bonusPoint, events);
+        }
+
+        return simulatePenaltyShootout(myTeam, adverseTeam, kicker, finalMyScore, finalAdverseScore, events);
+}
+
+    private boolean isKickSuccessful(Player kicker) {
+
+        if (kicker == null) {
+            return Math.random() < 0.5;
+        }
+
+        double probability =
+                0.45 + (kicker.getOverall() / 200.0);
+
+        probability =
+                Math.max(0.50, Math.min(0.95, probability));
+
+        return Math.random() < probability;
+    }
 
     private Team CreateBestAdverseTeam(Team randomTeam) {
 
@@ -365,19 +477,17 @@ public class  Simulation {
         if (myScore >= minScoreToGoInPlayOff) {
             int i = 0;
             qualified = true;
-            while (win && nbPlayOffGame > 0) {
-                
+            while (win && nbPlayOffGame > 0) {  
                 Team adverseteam =  sim.CreateBestAdverseTeam(YourTeam.GetRandomTeam(teams));
-                MatchResult res =  sim.SimulateMatch(myTeam.team, adverseteam,myTeam.kicker);
+                MatchResult res =  sim.simulateFinalsMatch(myTeam.team, adverseteam,myTeam.kicker);
                 res.setMatchName(finalsName.get(i));
                 matchs.add(res);
                 myScore += res.getBonusPoints();
-                if (res.getScoreMyTeam() < res.getScoreAdverseTeam()){
+                if (res.isVictory()) {
+                    myWinRate += 1;
+                } else {
                     win = false;
                     adverseWinRate += 1;
-                }
-                else if (res.getScoreAdverseTeam() < res.getScoreMyTeam()){
-                    myWinRate += 1;
                 }
                 nbPlayOffGame -=1;
                 i +=1;
