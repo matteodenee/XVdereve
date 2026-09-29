@@ -29,9 +29,70 @@
   </header>
 
 
-  <!-- ============================== -->
+  <!-- ====================================== -->
+  <!-- VITESSE DE SIMULATION -->
+  <!-- ====================================== -->
+
+  @if (
+    phase() !== 'READY'
+    &&
+    phase() !== 'FINISHED'
+  ) {
+
+    <div class="speed-controller">
+
+      <span class="speed-label">
+        VITESSE
+      </span>
+
+
+      <div class="speed-buttons">
+
+        <button
+          type="button"
+          [class.active]="animationSpeed() === 1"
+          (click)="setSpeed(1)"
+        >
+          ×1
+        </button>
+
+
+        <button
+          type="button"
+          [class.active]="animationSpeed() === 2"
+          (click)="setSpeed(2)"
+        >
+          ×2
+        </button>
+
+
+        <button
+          type="button"
+          [class.active]="animationSpeed() === 4"
+          (click)="setSpeed(4)"
+        >
+          ×4
+        </button>
+
+
+        <button
+          type="button"
+          class="instant-button"
+          (click)="setSpeed(0)"
+        >
+          Résultat instantané
+        </button>
+
+      </div>
+
+    </div>
+
+  }
+
+
+  <!-- ====================================== -->
   <!-- AVANT LE TOURNOI -->
-  <!-- ============================== -->
+  <!-- ====================================== -->
 
   @if (phase() === 'READY') {
 
@@ -74,8 +135,64 @@
       }
 
 
+      <!--
+        Choix de la vitesse avant même
+        le lancement du tournoi.
+      -->
+
+      <div class="pre-game-speed">
+
+        <span>
+          Vitesse de simulation
+        </span>
+
+
+        <div class="speed-buttons">
+
+          <button
+            type="button"
+            [class.active]="animationSpeed() === 1"
+            (click)="setSpeed(1)"
+          >
+            ×1
+          </button>
+
+
+          <button
+            type="button"
+            [class.active]="animationSpeed() === 2"
+            (click)="setSpeed(2)"
+          >
+            ×2
+          </button>
+
+
+          <button
+            type="button"
+            [class.active]="animationSpeed() === 4"
+            (click)="setSpeed(4)"
+          >
+            ×4
+          </button>
+
+
+          <button
+            type="button"
+            [class.active]="animationSpeed() === 0"
+            class="instant-button"
+            (click)="setSpeed(0)"
+          >
+            Instantané
+          </button>
+
+        </div>
+
+      </div>
+
+
       <button
         type="button"
+        class="start-button"
         [disabled]="loading()"
         (click)="simulate()"
       >
@@ -96,9 +213,9 @@
   }
 
 
-  <!-- ============================== -->
-  <!-- CHARGEMENT BACKEND -->
-  <!-- ============================== -->
+  <!-- ====================================== -->
+  <!-- CHARGEMENT -->
+  <!-- ====================================== -->
 
   @if (phase() === 'LOADING') {
 
@@ -123,9 +240,9 @@
   }
 
 
-  <!-- ============================== -->
-  <!-- TIRAGE DU PROCHAIN MATCH -->
-  <!-- ============================== -->
+  <!-- ====================================== -->
+  <!-- TIRAGE -->
+  <!-- ====================================== -->
 
   @if (phase() === 'DRAW') {
 
@@ -168,12 +285,11 @@
               Tirage de ton adversaire...
             </h2>
 
+
             <div class="draw-loader">
 
               <span></span>
-
               <span></span>
-
               <span></span>
 
             </div>
@@ -222,7 +338,10 @@
                 </span>
 
                 <strong>
-                  {{ match.adverseTeam.country | displayName }}
+                  {{
+                    match.adverseTeam.country
+                    | displayName
+                  }}
                 </strong>
 
                 <small>
@@ -244,9 +363,9 @@
   }
 
 
-  <!-- ============================== -->
+  <!-- ====================================== -->
   <!-- MATCH EN DIRECT -->
-  <!-- ============================== -->
+  <!-- ====================================== -->
 
   @if (phase() === 'MATCH') {
 
@@ -263,9 +382,13 @@
             {{ totalMatches() }}
           </span>
 
+
           <span class="live-indicator">
+
             <i></i>
+
             EN DIRECT
+
           </span>
 
         </div>
@@ -321,9 +444,14 @@
             <div class="live-team">
 
               <span>
-                {{ match.adverseTeam.country | displayName }}
+
+                {{
+                  match.adverseTeam.country
+                  | displayName
+                }}
 
                 {{ match.adverseTeam.year }}
+
               </span>
 
               <strong>
@@ -344,16 +472,19 @@
               </span>
 
               <span>
+
                 {{ visibleEventCount() }}
                 /
                 {{ match.events.length }}
+
               </span>
 
             </div>
 
 
             @if (
-              visibleEventsNewestFirst().length === 0
+              visibleEventsNewestFirst().length
+              === 0
             ) {
 
               <div class="waiting-event">
@@ -371,37 +502,55 @@
               <div class="events">
 
                 @for (
-                  event of visibleEventsNewestFirst();
+                  event of
+                    visibleEventsNewestFirst();
                   track $index
                 ) {
 
                   <div
                     class="event"
-                    [class.my-event]="event.myTeamEvent"
+                    [class.my-event]="
+                      event.myTeamEvent
+                    "
                   >
 
                     <div class="event-icon">
 
-                      @if (event.myTeamEvent) {
+                      @if (
+                        event.myTeamEvent
+                      ) {
+
                         XV
+
                       } @else {
+
                         ADV
+
                       }
 
                     </div>
 
 
-                    <div class="event-description">
+                    <div
+                      class="event-description"
+                    >
 
                       <strong>
                         {{ event.player.name }}
                       </strong>
 
                       <span>
-                        {{ event.type | eventTypeLabel }}
+
+                        {{
+                          event.type
+                          | eventTypeLabel
+                        }}
+
                         ·
+
                         +{{ event.points }}
                         pts
+
                       </span>
 
                     </div>
@@ -410,8 +559,12 @@
                     <div class="event-score">
 
                       {{ event.scoreMyTeam }}
+
                       -
-                      {{ event.scoreAdverseTeam }}
+
+                      {{
+                        event.scoreAdverseTeam
+                      }}
 
                     </div>
 
@@ -434,9 +587,9 @@
   }
 
 
-  <!-- ============================== -->
-  <!-- FIN D'UN MATCH -->
-  <!-- ============================== -->
+  <!-- ====================================== -->
+  <!-- FIN DU MATCH -->
+  <!-- ====================================== -->
 
   @if (phase() === 'MATCH_END') {
 
@@ -450,7 +603,8 @@
           [class.defeat]="
             !match.victory
             &&
-            match.scoreMyTeam !==
+            match.scoreMyTeam
+              !==
             match.scoreAdverseTeam
           "
         >
@@ -471,23 +625,30 @@
 
 
           @if (
-            match.scoreMyTeam ===
+            match.scoreMyTeam
+            ===
             match.scoreAdverseTeam
           ) {
 
-            <span class="match-result-title draw">
+            <span
+              class="match-result-title draw"
+            >
               MATCH NUL
             </span>
 
           } @else if (match.victory) {
 
-            <span class="match-result-title victory">
+            <span
+              class="match-result-title victory"
+            >
               VICTOIRE
             </span>
 
           } @else {
 
-            <span class="match-result-title defeat">
+            <span
+              class="match-result-title defeat"
+            >
               DÉFAITE
             </span>
 
@@ -517,13 +678,20 @@
             <div>
 
               <span>
-                {{ match.adverseTeam.country | displayName }}
+
+                {{
+                  match.adverseTeam.country
+                  | displayName
+                }}
 
                 {{ match.adverseTeam.year }}
+
               </span>
 
               <strong>
-                {{ match.scoreAdverseTeam }}
+                {{
+                  match.scoreAdverseTeam
+                }}
               </strong>
 
             </div>
@@ -535,7 +703,9 @@
             match.matchName === 'POULE'
           ) {
 
-            <div class="classification-points">
+            <div
+              class="classification-points"
+            >
 
               +
               {{ match.bonusPoints }}
@@ -553,17 +723,13 @@
           ) {
 
             <div class="next-match">
-
               Prochain match...
-
             </div>
 
           } @else {
 
             <div class="next-match">
-
               Fin du tournoi...
-
             </div>
 
           }
@@ -577,9 +743,9 @@
   }
 
 
-  <!-- ============================== -->
-  <!-- RESULTAT FINAL DU TOURNOI -->
-  <!-- ============================== -->
+  <!-- ====================================== -->
+  <!-- RESULTAT FINAL -->
+  <!-- ====================================== -->
 
   @if (phase() === 'FINISHED') {
 
@@ -587,7 +753,9 @@
 
       <section
         class="result-hero"
-        [class.champion]="tournament.champion"
+        [class.champion]="
+          tournament.champion
+        "
       >
 
         <span>
@@ -649,11 +817,13 @@
           </span>
 
           <strong>
+
             {{
               tournament.qualified
                 ? 'Oui'
                 : 'Non'
             }}
+
           </strong>
 
         </div>

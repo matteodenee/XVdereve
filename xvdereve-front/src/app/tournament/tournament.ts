@@ -43,6 +43,13 @@ type TournamentPhase =
   | 'FINISHED';
 
 
+type AnimationSpeed =
+  | 1
+  | 2
+  | 4
+  | 0;
+
+
 @Component({
   selector: 'app-tournament',
 
@@ -79,38 +86,32 @@ export class Tournament {
     signal<string | null>(null);
 
 
-  /*
-   * Etat actuel de l'animation du tournoi.
-   */
   readonly phase =
     signal<TournamentPhase>('READY');
 
 
-  /*
-   * Index du match actuellement affiché.
-   */
   readonly currentMatchIndex =
     signal(0);
 
 
-  /*
-   * Nombre d'événements actuellement révélés.
-   */
   readonly visibleEventCount =
     signal(0);
 
 
-  /*
-   * Permet de faire apparaître l'adversaire
-   * après un petit temps de "tirage".
-   */
   readonly drawRevealed =
     signal(false);
 
 
   /*
-   * Match actuellement joué.
+   * 1 = vitesse normale
+   * 2 = deux fois plus rapide
+   * 4 = quatre fois plus rapide
+   * 0 = résultat instantané
    */
+  readonly animationSpeed =
+    signal<AnimationSpeed>(1);
+
+
   readonly currentMatch =
     computed<MatchResultDto | null>(() => {
 
@@ -130,9 +131,6 @@ export class Tournament {
     });
 
 
-  /*
-   * Evénements déjà révélés.
-   */
   readonly visibleEvents =
     computed(() => {
 
@@ -151,10 +149,6 @@ export class Tournament {
     });
 
 
-  /*
-   * Même liste, mais l'événement le plus récent
-   * apparaît en premier.
-   */
   readonly visibleEventsNewestFirst =
     computed(() => {
 
@@ -165,12 +159,6 @@ export class Tournament {
     });
 
 
-  /*
-   * Score actuel de notre équipe.
-   *
-   * Pendant le match, on n'utilise surtout pas
-   * directement le score final du DTO.
-   */
   readonly liveScoreMyTeam =
     computed(() => {
 
@@ -188,9 +176,6 @@ export class Tournament {
     });
 
 
-  /*
-   * Score actuel de l'adversaire.
-   */
   readonly liveScoreOpponent =
     computed(() => {
 
@@ -208,9 +193,6 @@ export class Tournament {
     });
 
 
-  /*
-   * Numéro du match pour l'affichage.
-   */
   readonly displayedMatchNumber =
     computed(() => {
 
@@ -221,9 +203,6 @@ export class Tournament {
     });
 
 
-  /*
-   * Nombre total de matchs dans le tournoi.
-   */
   readonly totalMatches =
     computed(() => {
 
@@ -234,9 +213,6 @@ export class Tournament {
     });
 
 
-  /*
-   * Pourcentage de progression du tournoi.
-   */
   readonly tournamentProgress =
     computed(() => {
 
@@ -258,9 +234,6 @@ export class Tournament {
     });
 
 
-  /*
-   * Titre du bilan final.
-   */
   readonly statusTitle =
     computed(() => {
 
@@ -284,9 +257,6 @@ export class Tournament {
     });
 
 
-  /*
-   * Lancement du tournoi.
-   */
   simulate(): void {
 
     if (this.loading()) {
@@ -312,6 +282,20 @@ export class Tournament {
 
           this.visibleEventCount.set(0);
 
+          /*
+           * Si le joueur avait déjà choisi
+           * "résultat instantané" pendant
+           * le chargement.
+           */
+          if (
+            this.animationSpeed() === 0
+          ) {
+
+            this.showFinalResult();
+
+            return;
+          }
+
           void this.playCurrentMatch();
 
         },
@@ -334,17 +318,92 @@ export class Tournament {
 
 
   /*
-   * Déroulement complet d'un match.
-   *
-   * 1. Tirage
-   * 2. Révélation adversaire
-   * 3. Match
-   * 4. Evénements
-   * 5. Résultat
-   * 6. Match suivant
+   * Change la vitesse à n'importe quel
+   * moment du tournoi.
    */
+  setSpeed(
+    speed: AnimationSpeed
+  ): void {
+
+    this.animationSpeed.set(speed);
+
+
+    /*
+     * Si le résultat du backend existe déjà
+     * et que le joueur demande l'instantané,
+     * on affiche directement le bilan.
+     */
+    if (
+      speed === 0
+      &&
+      this.result()
+    ) {
+
+      this.showFinalResult();
+
+    }
+
+  }
+
+
+  private showFinalResult(): void {
+
+    const tournament =
+      this.result();
+
+    if (!tournament) {
+      return;
+    }
+
+
+    /*
+     * On place l'index sur le dernier match
+     * pour garder un état cohérent.
+     */
+    if (
+      tournament.matches.length > 0
+    ) {
+
+      this.currentMatchIndex.set(
+        tournament.matches.length - 1
+      );
+
+      const lastMatch =
+        tournament.matches[
+          tournament.matches.length - 1
+        ];
+
+      this.visibleEventCount.set(
+        lastMatch.events.length
+      );
+
+    }
+
+
+    this.drawRevealed.set(true);
+
+    this.phase.set('FINISHED');
+
+  }
+
+
   private async playCurrentMatch():
     Promise<void> {
+
+    /*
+     * Permet de couper immédiatement
+     * l'animation.
+     */
+    if (
+      this.animationSpeed() === 0
+    ) {
+
+      this.showFinalResult();
+
+      return;
+
+    }
+
 
     const match =
       this.currentMatch();
@@ -359,7 +418,9 @@ export class Tournament {
 
 
     /*
+     * ===========================
      * TIRAGE
+     * ===========================
      */
 
     this.visibleEventCount.set(0);
@@ -372,6 +433,17 @@ export class Tournament {
     await this.wait(700);
 
 
+    if (
+      this.animationSpeed() === 0
+    ) {
+
+      this.showFinalResult();
+
+      return;
+
+    }
+
+
     /*
      * Révélation de l'adversaire.
      */
@@ -382,8 +454,21 @@ export class Tournament {
     await this.wait(1600);
 
 
+    if (
+      this.animationSpeed() === 0
+    ) {
+
+      this.showFinalResult();
+
+      return;
+
+    }
+
+
     /*
+     * ===========================
      * DEBUT DU MATCH
+     * ===========================
      */
 
     this.phase.set('MATCH');
@@ -392,9 +477,21 @@ export class Tournament {
     await this.wait(900);
 
 
+    if (
+      this.animationSpeed() === 0
+    ) {
+
+      this.showFinalResult();
+
+      return;
+
+    }
+
+
     /*
-     * Les événements apparaissent
-     * progressivement.
+     * ===========================
+     * EVENEMENTS
+     * ===========================
      */
 
     for (
@@ -402,6 +499,17 @@ export class Tournament {
       i < match.events.length;
       i++
     ) {
+
+      if (
+        this.animationSpeed() === 0
+      ) {
+
+        this.showFinalResult();
+
+        return;
+
+      }
+
 
       this.visibleEventCount.set(
         i + 1
@@ -413,15 +521,24 @@ export class Tournament {
     }
 
 
-    /*
-     * Petit délai après le dernier événement.
-     */
-
     await this.wait(700);
 
 
+    if (
+      this.animationSpeed() === 0
+    ) {
+
+      this.showFinalResult();
+
+      return;
+
+    }
+
+
     /*
+     * ===========================
      * FIN DU MATCH
+     * ===========================
      */
 
     this.phase.set('MATCH_END');
@@ -430,8 +547,21 @@ export class Tournament {
     await this.wait(2200);
 
 
+    if (
+      this.animationSpeed() === 0
+    ) {
+
+      this.showFinalResult();
+
+      return;
+
+    }
+
+
     /*
-     * Passage au match suivant.
+     * ===========================
+     * MATCH SUIVANT
+     * ===========================
      */
 
     const tournament =
@@ -468,7 +598,9 @@ export class Tournament {
 
 
     /*
+     * ===========================
      * FIN DU TOURNOI
+     * ===========================
      */
 
     this.phase.set('FINISHED');
@@ -477,23 +609,89 @@ export class Tournament {
 
 
   /*
-   * Petite fonction utilitaire permettant
-   * de temporiser les animations.
+   * Attente dynamique.
+   *
+   * L'intérêt par rapport à un simple :
+   *
+   * setTimeout(ms / vitesse)
+   *
+   * est que la vitesse peut être modifiée
+   * PENDANT l'attente.
+   *
+   * Exemple :
+   *
+   * x1 -> x4 pendant le tirage
+   *
+   * l'animation accélère immédiatement.
    */
-  private wait(
-    milliseconds: number
+  private async wait(
+    baseMilliseconds: number
   ): Promise<void> {
 
-    return new Promise(
-      resolve => {
+    let elapsed =
+      0;
 
-        setTimeout(
-          resolve,
-          milliseconds
-        );
+
+    let previousTime =
+      performance.now();
+
+
+    while (
+      elapsed < baseMilliseconds
+    ) {
+
+      /*
+       * Résultat instantané.
+       */
+      if (
+        this.animationSpeed() === 0
+      ) {
+
+        return;
 
       }
-    );
+
+
+      await new Promise<void>(
+        resolve => {
+
+          setTimeout(
+            resolve,
+            40
+          );
+
+        }
+      );
+
+
+      const now =
+        performance.now();
+
+
+      const realElapsed =
+        now - previousTime;
+
+
+      previousTime =
+        now;
+
+
+      /*
+       * x1 :
+       * 40 ms réelles = 40 ms animation
+       *
+       * x2 :
+       * 40 ms réelles = 80 ms animation
+       *
+       * x4 :
+       * 40 ms réelles = 160 ms animation
+       */
+      elapsed +=
+        realElapsed
+        *
+        this.animationSpeed();
+
+    }
 
   }
 
