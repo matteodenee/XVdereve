@@ -1,4 +1,8 @@
-FROM eclipse-temurin:21-jdk
+# ==============================
+# ETAPE 1 : COMPILATION MAVEN
+# ==============================
+
+FROM eclipse-temurin:21-jdk AS build
 
 WORKDIR /app
 
@@ -8,6 +12,17 @@ RUN chmod +x mvnw
 
 RUN ./mvnw clean package -DskipTests
 
+
+# ==============================
+# ETAPE 2 : EXECUTION JAVA
+# ==============================
+
+FROM eclipse-temurin:21-jre
+
+WORKDIR /app
+
+COPY --from=build /app/target/xvdereve-back-0.0.1-SNAPSHOT.jar app.jar
+
 EXPOSE 8080
 
-CMD ["java", "-jar", "target/xvdereve-back-0.0.1-SNAPSHOT.jar"]
+ENTRYPOINT ["java", "-jar", "app.jar"]

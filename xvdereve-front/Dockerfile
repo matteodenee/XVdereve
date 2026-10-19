@@ -1,4 +1,8 @@
-FROM node:24
+# ==============================
+# ETAPE 1 : COMPILATION ANGULAR
+# ==============================
+
+FROM node:24 AS build
 
 WORKDIR /app
 
@@ -8,6 +12,19 @@ RUN npm ci
 
 COPY . .
 
-EXPOSE 4200
+RUN npm run build -- --configuration production
 
-CMD ["npm", "start", "--", "--host", "0.0.0.0", "--proxy-config", "proxy.docker.conf.json"]
+
+# ==============================
+# ETAPE 2 : SERVEUR NGINX
+# ==============================
+
+FROM nginx:stable-alpine
+
+COPY --from=build /app/dist/xvdereve-front/browser /usr/share/nginx/html
+
+COPY nginx.conf /etc/nginx/conf.d/default.conf
+
+EXPOSE 80
+
+CMD ["nginx", "-g", "daemon off;"]

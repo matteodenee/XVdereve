@@ -1,8 +1,16 @@
+name: xvdereve
+
 services:
+
+  # ==========================
+  # BASE DE DONNEES
+  # ==========================
 
   postgres:
     image: postgres:17
+
     container_name: xvdereve-postgres
+
     restart: unless-stopped
 
     environment:
@@ -10,14 +18,21 @@ services:
       POSTGRES_USER: xvdereve
       POSTGRES_PASSWORD: xvdereve
 
-    ports:
-      - "5432:5432"
-
     volumes:
       - postgres_data:/var/lib/postgresql/data
       - ./xvdereve-back/database/init:/docker-entrypoint-initdb.d:ro
       - ./xvdereve-back/csv:/csv:ro
 
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U xvdereve -d xvdereve"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+
+
+  # ==========================
+  # BACKEND SPRING BOOT
+  # ==========================
 
   backend:
     build:
@@ -25,17 +40,24 @@ services:
 
     container_name: xvdereve-back
 
-    ports:
-      - "8080:8080"
+    restart: unless-stopped
 
     depends_on:
-      - postgres
+      postgres:
+        condition: service_healthy
 
     environment:
       SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/xvdereve
       SPRING_DATASOURCE_USERNAME: xvdereve
       SPRING_DATASOURCE_PASSWORD: xvdereve
 
+    expose:
+      - "8080"
+
+
+  # ==========================
+  # FRONTEND ANGULAR + NGINX
+  # ==========================
 
   frontend:
     build:
@@ -43,8 +65,10 @@ services:
 
     container_name: xvdereve-front
 
+    restart: unless-stopped
+
     ports:
-      - "4200:4200"
+      - "127.0.0.1:4200:80"
 
     depends_on:
       - backend
