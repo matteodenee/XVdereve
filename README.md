@@ -76,8 +76,10 @@ Les données sont stockées dans une base **PostgreSQL**.
 
 ## Infrastructure
 
-- Docker
-- Docker Compose
+- Docker et Docker Compose
+- Nginx (service du frontend Angular compilé)
+- Tailscale Funnel (publication HTTPS du jeu sur Internet)
+- Ubuntu 24.04 LTS (machine qui héberge actuellement le jeu)
 
 ---
 
@@ -85,104 +87,156 @@ Les données sont stockées dans une base **PostgreSQL**.
 
 ```text
 XVdereve/
-│
 ├── docker-compose.yml
-│
-├── database/
-│   ├── init/
-│   │   └── schema.sql
-│   └── data/
-│
+├── .gitignore
+├── .env                         # local, non versionné
 ├── xvdereve-back/
 │   ├── src/
+│   ├── database/
+│   │   └── init/               # initialisation PostgreSQL
 │   ├── csv/
-│   │   ├── Player.csv
-│   │   └── Team.csv
 │   ├── pom.xml
 │   ├── mvnw
 │   └── Dockerfile
-│
 └── xvdereve-front/
     ├── src/
     ├── public/
     ├── package.json
     ├── angular.json
+    ├── nginx.conf
     └── Dockerfile
 ```
 
+Le dossier `node_modules/`, les sauvegardes et le fichier `.env` ne doivent pas être versionnés.
+
 ---
 
-# 🚀 Lancer le projet
+# 🚀 Installation et lancement avec Docker
 
 ## Prérequis
 
-Pour lancer le projet, il faut avoir installé :
-
 - Git
-- Docker
+- Docker Engine (ou Docker Desktop)
 - Docker Compose
-
-Vérifier que Docker fonctionne :
 
 ```bash
 docker --version
 docker compose version
 ```
 
----
-
-## 1. Cloner le projet
+## 1. Récupérer le code
 
 ```bash
 git clone git@github.com:matteodenee/XVdereve.git
 cd XVdereve
 ```
 
----
+Le clonage en SSH nécessite une clé GitHub configurée. On peut aussi utiliser l'URL HTTPS du dépôt.
 
-## 2. Lancer Docker
+## 2. Configurer PostgreSQL
 
-Il faut vérifier que **Docker Desktop** ou le daemon Docker est démarré avant de lancer le projet.
+La configuration Docker attend les variables suivantes dans un fichier `.env` **local**, à la racine du projet :
 
-Puis, depuis la racine du projet :
+```dotenv
+POSTGRES_DB=xvdereve
+POSTGRES_USER=xvdereve
+POSTGRES_PASSWORD=<mot-de-passe-fort-a-definir>
+```
+
+Ne jamais commiter `.env` ni copier un mot de passe réel dans le README. Les variables doivent être utilisées dans les services `postgres` et `backend` de `docker-compose.yml`. Sur une base **déjà initialisée**, modifier `POSTGRES_PASSWORD` dans `.env` ne modifie pas le mot de passe enregistré dans PostgreSQL : il faut également le changer dans la base.
+
+> **État du déploiement :** les paramètres sont externalisés dans `.env` uniquement si les changements de configuration correspondants ont été appliqués. Vérifier `docker-compose.yml` avant de lancer une nouvelle installation.
+
+## 3. Construire et démarrer
 
 ```bash
-docker compose up --build
+docker compose config --quiet
+docker compose build frontend backend
+docker compose up -d
 ```
 
-Au premier lancement, la construction des images peut être plus longue car Docker doit télécharger les dépendances nécessaires.
-
-Les lancements suivants sont normalement beaucoup plus rapides.
-
-Pour démarrer sans reconstruire les images :
+`-d` démarre les services en arrière-plan. Le premier build peut être plus long. Lors des prochains démarrages, si le code n'a pas changé :
 
 ```bash
-docker compose up
+docker compose up -d
 ```
+
+Vérifier le fonctionnement :
+
+```bash
+docker compose ps
+docker compose logs --tail=50 backend
+```
+
+## Architecture de production
+
+```text
+Navigateur ── HTTPS ── Tailscale Funnel ── localhost:4200
+                                               │
+                                       Nginx + Angular
+                                               │ /api
+                                         Spring Boot
+                                               │
+                                          PostgreSQL
+```
+
+- Angular est **compilé en mode production** et servi par Nginx (pas par `ng serve`).
+- Nginx transmet `/api/` au service Docker `backend:8080`.
+- Spring Boot se connecte à `postgres:5432` via le réseau Docker.
+- En production, le port `4200` est publié sur `127.0.0.1` seulement ; `8080` et `5432` ne sont **pas exposés à l'hôte**.
 
 ---
 
-# 🌐 Accès à l'application
+# 🌐 Accès au jeu
 
-Une fois les conteneurs démarrés :
+### Accès local (sur le PC serveur)
 
-### Frontend Angular
+**http://localhost:4200**
 
-```text
-http://localhost:4200
+### Accès public HTTPS
+
+**[Jouer à XV de Rêve](https://matteodne-vivobook-asuslaptop-x412da-x412da.tail8b29b4.ts.net)**
+
+L'application est publiée avec **Tailscale Funnel**. Les visiteurs n'ont pas besoin de compte Tailscale ni de VPN. L'adresse est associée au nom Tailscale de la machine : elle peut changer si l'appareil est supprimé, renommé ou si la configuration du réseau est modifiée.
+
+Le service reste accessible uniquement si le PC est **allumé, connecté à Internet**, que les conteneurs fonctionnent et que Funnel est connecté. Funnel est une solution gratuite pour ce petit projet personnel, avec des limites de débit et sans garantie d'hébergement professionnel.
+
+### Vérifier le tunnel
+
+```bash
+tailscale status
+tailscale funnel status
+tailscale netcheck
 ```
 
-### Backend Spring Boot
+Pour publier le service sur une machine Tailscale déjà authentifiée (avec autorisation Funnel) :
 
-```text
-http://localhost:8080
+```bash
+sudo tailscale funnel --bg 4200
 ```
 
-### PostgreSQL
+Tester le lien public depuis un autre réseau (4G/5G, par exemple). Un nouveau lien peut nécessiter un délai de propagation DNS.
 
-```text
-localhost:5432
+### Démarrage automatique
+
+```bash
+sudo systemctl enable --now docker
+sudo systemctl enable --now tailscaled
 ```
+
+Les services Docker utilisent `restart: unless-stopped`, et la configuration Funnel en arrière-plan est persistante. Après un redémarrage, vérifier tout de même `docker compose ps` et `tailscale funnel status`.
+
+Sur le PC Ubuntu, **désactiver la suspension automatique sur secteur** si le jeu doit rester accessible. L'écran peut être éteint ; le PC ne doit pas être mis en veille. Garder une bonne ventilation.
+
+### NordVPN : attention au conflit réseau
+
+Sur le serveur actuel, **l'application NordVPN Linux connectée bloque les relais Tailscale et rend Funnel inaccessible**, même si `Funnel on` reste affiché. Pour maintenir le jeu en ligne, laisser le VPN système déconnecté :
+
+```bash
+nordvpn disconnect
+```
+
+Il est possible d'utiliser l'extension NordVPN de Firefox pour la navigation dans ce navigateur uniquement, sans affecter tout le trafic du PC. Ne pas désactiver durablement le pare-feu NordVPN pour contourner ce problème.
 
 ---
 
@@ -281,51 +335,54 @@ Le niveau du buteur influence également la réussite des transformations et des
 
 ---
 
-# 🐳 Commandes Docker utiles
+# 🐳 Commandes utiles pour l'exploitation
 
-### Lancer le projet
+À exécuter depuis la racine du dépôt :
 
-```bash
-docker compose up
-```
+| Action | Commande |
+| --- | --- |
+| Démarrer en arrière-plan | `docker compose up -d` |
+| Voir les services | `docker compose ps` |
+| Suivre les logs | `docker compose logs -f` |
+| Voir les derniers logs backend | `docker compose logs --tail=80 backend` |
+| Reconstruire le frontend uniquement | `docker compose up -d --build frontend` |
+| Reconstruire le backend uniquement | `docker compose up -d --build backend` |
+| Arrêter les services | `docker compose down` |
+| Vérifier la configuration | `docker compose config --quiet` |
 
-### Reconstruire les images
+**Ne pas utiliser `docker compose down -v`** sur la machine serveur : cela supprimerait les volumes associés, notamment les données PostgreSQL.
 
-```bash
-docker compose up --build
-```
+## Mettre à jour le serveur depuis GitHub
 
-### Arrêter le projet
-
-```bash
-docker compose down
-```
-
-### Voir les conteneurs actifs
-
-```bash
-docker ps
-```
-
-### Voir les logs
+Sur le PC serveur :
 
 ```bash
-docker compose logs
+cd ~/XVdereve
+git status
+git pull --ff-only origin main
+docker compose up -d --build
 ```
 
-### Voir les logs en direct
+Vérifier que le répertoire de travail ne contient pas de modifications locales non sauvegardées avant le `pull`. Pour une simple modification d'Angular, on peut ne reconstruire que `frontend` ; pour une modification Java, que `backend`.
+
+Une reconstruction ne supprime normalement pas le volume PostgreSQL. Il peut y avoir une courte indisponibilité pendant le redémarrage des services.
+
+## Sauvegarder PostgreSQL
 
 ```bash
-docker compose logs -f
+mkdir -p ~/XVdereve-backups
+docker exec xvdereve-postgres \
+  pg_dump -U xvdereve -d xvdereve -Fc \
+  > ~/XVdereve-backups/xvdereve.dump
 ```
 
----
+La sauvegarde est placée **hors du dépôt Git**. Vérifier qu'elle est non vide et prévoir périodiquement une copie sur un autre support. La présence d'un volume Docker ne remplace pas les sauvegardes.
 
-# 🔧 Lancement manuel
+## Lancement manuel pour le développement
 
-Il est également possible de lancer le frontend et le backend séparément.
+Le serveur Docker de production est indépendant des commandes de développement ci-dessous.
 
-## Backend
+Backend (avec PostgreSQL accessible dans l'environnement local et des variables de connexion adaptées) :
 
 ```bash
 cd xvdereve-back
@@ -333,87 +390,69 @@ chmod +x mvnw
 ./mvnw spring-boot:run
 ```
 
-Le backend est ensuite disponible sur :
-
-```text
-http://localhost:8080
-```
-
-## Frontend
-
-Dans un autre terminal :
+Frontend, dans un autre terminal :
 
 ```bash
 cd xvdereve-front
-npm install
+npm ci
 npm start
 ```
 
-ou :
+Le serveur Angular de développement utilise `localhost:4200`. Attention aux conflits de port si Nginx Docker publie déjà ce port.
+
+## Dépannage
+
+### L'accueil ne charge pas
 
 ```bash
-ng serve
+curl -I --max-time 5 http://127.0.0.1:4200
+docker compose ps
+docker compose logs --tail=50 frontend
 ```
 
-Le frontend est ensuite disponible sur :
+### La page s'affiche mais la partie ne démarre pas
 
-```text
-http://localhost:4200
+```bash
+docker compose logs --tail=100 backend
 ```
+
+Contrôler la connexion PostgreSQL et les appels `/api/` dans les outils de développement du navigateur.
+
+### Erreur Hibernate de validation du schéma
+
+Sur la machine de déploiement initiale, les colonnes `player.overall` et `team.year` ont été converties de `SMALLINT` en `INTEGER` pour correspondre aux entités Java.
+
+**Important :** cette correction manuelle de la base existante n'assure pas à elle seule qu'une base neuve sera compatible. Le schéma SQL versionné doit être harmonisé ou une migration SQL doit être créée avant un déploiement sur une nouvelle machine. Conserver `spring.jpa.hibernate.ddl-auto=validate` pour éviter les modifications automatiques imprévues du schéma.
+
+### Funnel inaccessible alors que `Funnel on` est affiché
+
+```bash
+tailscale netcheck
+nordvpn status
+```
+
+Si NordVPN Linux est connecté, il peut bloquer les relais DERP de Tailscale. Le déconnecter sur cette installation puis retester depuis un appareil hors du réseau local.
+
+### Docker non disponible
+
+```bash
+systemctl status docker --no-pager
+```
+
+### Base PostgreSQL et réinitialisation
+
+Les données sont persistées dans le volume Docker `xvdereve_postgres_data` sur le serveur actuel. `docker compose down` ne supprime pas ce volume. **Ne jamais supprimer le volume pour résoudre une erreur sans sauvegarde et diagnostic préalable.**
 
 ---
 
-# ⚠️ Problèmes fréquents
+# 🔒 Sécurité du déploiement public
 
-## Port 8080 déjà utilisé
-
-Vérifier quel programme utilise le port :
-
-```bash
-sudo ss -ltnp '( sport = :8080 )'
-```
-
-Puis arrêter le conteneur ou le programme concerné.
-
----
-
-## Docker n'est pas démarré
-
-Une erreur de ce type :
-
-```text
-failed to connect to the docker API
-```
-
-signifie généralement que Docker Desktop ou le daemon Docker n'est pas lancé.
-
----
-
-## Port 4200 inaccessible
-
-Vérifier que le conteneur frontend est actif :
-
-```bash
-docker ps
-```
-
-Puis consulter les logs :
-
-```bash
-docker compose logs frontend
-```
-
----
-
-# 🔄 Réinitialiser la base de données
-
-Les données PostgreSQL sont persistantes grâce à un volume Docker.
-
-Ainsi, arrêter puis relancer les conteneurs ne supprime pas la base.
-
-Pour reconstruire complètement la base de données, il faut supprimer son volume ou son dossier de données avant de relancer les conteneurs.
-
-⚠️ Cette opération supprime les données présentes dans la base.
+- L'API `/api/` est accessible via le lien public : ne pas y laisser d'opérations d'administration ou de données sensibles sans protection.
+- Garder PostgreSQL et le port interne Spring Boot non publiés ; seul Nginx est joignable localement via `127.0.0.1:4200`.
+- Ne pas versionner `.env`, les dumps SQL, les jetons d'authentification ou les clés Tailscale.
+- Utiliser un mot de passe PostgreSQL fort et distinct ; si une base existe déjà, changer le mot de passe **dans PostgreSQL également**.
+- Garder Ubuntu, les images Docker et Tailscale à jour ; prévoir des sauvegardes régulières.
+- Le jeu reste un hébergement personnel, pas une infrastructure avec disponibilité garantie.
 
 ---
 
